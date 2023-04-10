@@ -1,5 +1,5 @@
 version: '3'
-name: musics_dev
+name: musics_prod
 services:
   nginx:
     image: nginx:1
@@ -12,9 +12,9 @@ services:
   web:
     build:
       context: .
+      target: prod
     restart: unless-stopped
     volumes:
-      - .:/app
       - app_node_modules:/app/node_modules
       - /mnt/shared/musics:/musics:ro
 volumes:
