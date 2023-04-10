@@ -1,0 +1,23 @@
+version: '3'
+name: musics_dev
+services:
+  nginx:
+    image: nginx:1
+    restart: unless-stopped
+    ports:
+      - "3141:3141"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /mnt/shared/musics:/musics:ro
+  web:
+    build:
+      context: .
+    restart: unless-stopped
+    ports:
+      - 3000
+    volumes:
+      - .:/app
+      - app_node_modules:/app/node_modules
+      - /mnt/shared/musics:/musics:ro
+volumes:
+  app_node_modules:

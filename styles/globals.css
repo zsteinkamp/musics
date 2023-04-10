@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+
+body {
+  font-family: "Roboto Condensed", sans;
+}
+h1 {
+  text-align: center;
+}
+.outer {
+  display: flex;
+  width: 100%;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.outer > .dirsContainer {
+  flex: 1 1;
+  max-width: 30rem;
+}
+.outer > .filesContainer {
+  flex: 1 0;
+  max-width: calc(100vw - 30rem);
+}
+
+.song {
+  display: flex;
+  margin-bottom: 1rem;
+}
+.song div {
+  width: 100%;
+  height: 4rem;
+}
+.song div p {
+  margin-left: 4rem;
+}
+.song div audio {
+  width: 100%;
+}
+.dir {
+  margin-bottom: 1rem;
+  height: 2rem;
+  text-align: right;
+  padding-right: 8rem;
+}
