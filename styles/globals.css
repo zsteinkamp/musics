@@ -16,6 +16,7 @@ h1 {
 .outer > .dirsContainer {
   flex: 1 1;
   max-width: 30rem;
+  padding-top: 1rem;
 }
 .outer > .filesContainer {
   flex: 1 0;
