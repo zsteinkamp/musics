@@ -12,7 +12,7 @@ const pExec = promisify(exec)
 
 const inter = Inter({ subsets: ['latin'] })
 
-export async function getStaticProps(context: any) {
+export async function getServerSideProps(context: any) {
   const path = ('/' + ((context && context.params && context.params.slug && context.params.slug) || []).join('/') + '/').replaceAll('//','/');
   const base = `/musics${path}`;
   //                             find files in /musics, sort newest first, only wav files
@@ -41,7 +41,7 @@ export async function getStaticProps(context: any) {
   }
 }
 
-export async function getStaticPaths() {
+export async function getServerSidePaths() {
   return {
     paths: [],
     fallback: true
