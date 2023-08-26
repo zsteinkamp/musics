@@ -3,9 +3,6 @@
 body {
   font-family: "Roboto Condensed", sans;
 }
-h1 {
-  text-align: center;
-}
 .outer {
   display: flex;
   width: 100%;
@@ -15,31 +12,58 @@ h1 {
 }
 .outer > .dirsContainer {
   flex: 1 1;
-  max-width: 30rem;
+  max-width: 20rem;
   padding-top: 1rem;
 }
-.outer > .filesContainer {
-  flex: 1 0;
-  max-width: calc(100vw - 30rem);
-}
 
-.song {
-  display: flex;
-  margin-bottom: 1rem;
-}
-.song div {
-  width: 100%;
-  height: 4rem;
-}
-.song div p {
-  margin-left: 4rem;
-}
-.song div audio {
-  width: 100%;
-}
 .dir {
   margin-bottom: 1rem;
   height: 2rem;
   text-align: right;
-  padding-right: 8rem;
+  padding-right: 4rem;
+}
+
+.outer > .filesContainer {
+  flex: 1 0;
+}
+
+.song {
+  display: grid;
+  grid-template-columns: 10rem auto; 
+  gap: 2rem;
+  margin-right: 2rem;
+  height: 10rem;
+  margin-bottom: 2rem;
+}
+.song img {
+  max-height: 10rem;
+  max-width: 10rem;
+  aspect-ratio: 1;
+}
+.song .metaplayer {
+  display: flex;
+  flex-direction: column;
+}
+.song .meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.song .meta p,
+.song .meta h2 {
+  margin: 0;
+}
+.song .meta h2 {
+  font-size: 3rem;
+}
+.song .fname {
+  opacity: 0.75;
+}
+.song .mtime {
+  opacity: 0.5;
+  white-space: nowrap;
+  font-size: 80%;
+}
+.song audio {
+  width: 100%;
 }
