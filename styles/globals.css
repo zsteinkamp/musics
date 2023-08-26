@@ -53,10 +53,12 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+.song .meta p {
+  text-align: right;
+}
 .song .meta p,
 .song .meta h2 {
   margin: 0;
-  text-align: right;
   margin-left: 1rem;
   margin-right: 1rem;
 }
