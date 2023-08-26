@@ -93,6 +93,7 @@ export default function Home(props: { filesObj:FilesObj, dirs:string[], path: st
     const fileObj = props.filesObj[key];
     files.push(
       <SongRow
+        key={key}
         audioRefs={audioRefs}
         activeKey={activeKey}
         setActiveKey={setActiveKey}

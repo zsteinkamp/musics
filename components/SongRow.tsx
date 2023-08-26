@@ -24,11 +24,6 @@ const SongRow = ({
   audioRefs,
   path
 }:SongRowProps): JSX.Element | null => {
-  if (myKey === undefined) {
-    console.log("WHAT UNDEFINED")
-    return null;
-  }
-  console.log('GOT KEY=', myKey);
   const cover = fileObj.coverPath && (
     <div className="cover">
       <img src={fileObj.coverPath} />
@@ -36,7 +31,6 @@ const SongRow = ({
   );
   const mtime = ftime(fileObj.mtime);
 
-  console.log('myKey=', myKey);
   const audioRef = useRef<HTMLAudioElement>(null);
   audioRefs.current[myKey] = audioRef;
 
@@ -79,20 +73,20 @@ const SongRow = ({
             src={`/api/musics${path + fileObj.file}`}
           />
         </div>
-        {fileObj.children && (
-          <div className="children">
-            {fileObj.children.map((obj: Record<string, any>) => {
-              return (
-                <p>
-                  {obj.file} - {ftime(obj.mtime)}
-                </p>
-              );
-            })}
-          </div>
-        )}
       </div>
     </div>
   );
+  //      {fileObj.children && (
+  //        <div className="children">
+  //          {fileObj.children.map((obj: Record<string, any>, i) => {
+  //            return (
+  //              <p>
+  //                {obj.file} - {ftime(obj.mtime)}
+  //              </p>
+  //            );
+  //          })}
+  //        </div>
+  //      )}
 };
 
 export default SongRow;

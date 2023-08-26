@@ -15,7 +15,6 @@ services:
     restart: unless-stopped
     volumes:
       - musics:/musics:ro
-      - app_node_modules:/app/node_modules
 volumes:
   musics:
     driver: "local"
@@ -23,4 +22,3 @@ volumes:
       type: "nfs4"
       o: "addr=10.1.1.2,ro,nfsvers=4"
       device: ":/mnt/data-pool/shared/musics"
-  app_node_modules:
