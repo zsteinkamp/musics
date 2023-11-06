@@ -6,14 +6,26 @@ import SongRow from '../components/SongRow'
 import { promisify } from 'util';
 import { exec } from "child_process";
 import { useRef, useState } from 'react'
+import moment from 'moment'
 
 const pExec = promisify(exec)
 
 type FilesObj = Record<string, any>;
 
 export async function getServerSideProps(context: any) {
-  const path = ('/' + ((context && context.params && context.params.slug && context.params.slug) || []).join('/') + '/').replaceAll('//','/');
-  const base = `/musics${path}`;
+  const path = join('/', ((context && context.params && context.params.slug && context.params.slug.join('/')) || ''))
+  let base = join('/musics', path);
+  let songPrefix = ''
+  
+  if (!fs.existsSync(base)) {
+    base = base.replace(/\/[^/]*$/, '')
+    const matches = path.match(/\/([^/]*)$/)
+    if (matches && matches[0]) {
+      songPrefix = matches[0]
+    }
+  }
+
+  console.log({base});
   //                             find files in /musics, sort newest first, only wav files
   const fileCmd = `find "${base}" -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3)$' | cut -d ' ' -f 2-`;
   //console.log('PATH', { path, fileCmd });
@@ -53,18 +65,24 @@ export async function getServerSideProps(context: any) {
     }
   }
 
-  const dirCmd = `find "${base}" -maxdepth 1 -type d | sort`;
-  //console.log('PATH', { path, dirCmd });
-  const dirsStr = (await pExec(dirCmd)).stdout;
-  const dirs = (dirsStr.split('\n') || []).map((f) => {
-    return f.substring(base.length);
-  }).filter((e) => e !== '' && e !== null && e !== undefined);
-  //console.log('dirs', { dirs, base });
+  let dirs:string[] = []
+  let songMeta:Record<string, any> = {}
+
+  if (!songPrefix) {
+    const dirCmd = `find "${base}" -maxdepth 1 -type d | sort`;
+    //console.log('PATH', { path, dirCmd });
+    const dirsStr = (await pExec(dirCmd)).stdout;
+    dirs = (dirsStr.split('\n') || []).map((f) => {
+      return f.substring(base.length);
+    }).filter((e) => e !== '' && e !== null && e !== undefined);
+    //console.log('dirs', { dirs, base });
+  }
 
   //console.log(filesObj);
 
   return {
     props: {
+      songPrefix,
       filesObj: filesObj,
       dirs: dirs,
       path: path
@@ -79,39 +97,85 @@ export async function getServerSidePaths() {
   };
 }
 
-export default function Home(props: { filesObj:FilesObj, dirs:string[], path: string }) {
-  //console.log({ props });
+export default function Home(props: { songPrefix:string, filesObj:FilesObj, dirs:string[], path: string }) {
+  console.log({ path: props.path, songPrefix: props.songPrefix });
 
   const dirList = [...(props.dirs || [])];
 
   const [activeKey, setActiveKey] = useState(null);
   const audioRefs = useRef({});
 
-  const files = [];
+  const content = [];
+
+  const ftime = (epochTimeMs: number): string => {
+    return moment(epochTimeMs).format("YYYY-MM-DD HH:mm");
+  };
   
-  for (const key of Object.keys(props.filesObj)) {
-    const fileObj = props.filesObj[key];
-    files.push(
-      <SongRow
-        key={key}
-        audioRefs={audioRefs}
-        activeKey={activeKey}
-        setActiveKey={setActiveKey}
-        myKey={key}
-        fileObj={fileObj}
-        path={props.path}
-      />
+  if (props.songPrefix) {
+    const fileObj = props.filesObj[props.songPrefix]
+
+    console.log({ fileObj, filesObj: props.filesObj })
+
+    const cover = fileObj.coverPath && (
+      <div className="cover">
+        <img src={fileObj.coverPath} />
+      </div>
     );
+    const mtime = ftime(fileObj.mtime);
+
+    const adjPath = props.songPrefix ? props.path.substring(0, props.path.length - props.songPrefix.length) : props.path
+
+    content.push(
+      <div className="songPage" key="a">
+        { cover }
+        <h1 className="fname">{props.songPrefix}</h1>
+        <div>
+          <audio
+            preload="none"
+            controls
+            src={`/api/musics${adjPath + fileObj.file}`}
+          />
+        </div>
+        <div className="childList">
+          { props.filesObj[props.songPrefix].children.map((f:Record<string, any>) => {
+            return (<div key={f.file}>
+                <label>
+                  <input type="radio" name="takes" value={ f.file } key={ f.file } />
+                  { f.file }
+                  <span suppressHydrationWarning>{ ftime(f.mtime) }</span>
+                </label>
+              </div>)
+          }) }
+        </div>
+      </div>
+    )
+
+  } else {
+    content.push(<h1 key="a">MUSICS {props.path}</h1>)
+    for (const key of Object.keys(props.filesObj)) {
+      const fileObj = props.filesObj[key];
+      content.push(
+        <SongRow
+          key={key}
+          audioRefs={audioRefs}
+          activeKey={activeKey}
+          setActiveKey={setActiveKey}
+          myKey={key}
+          fileObj={fileObj}
+          path={props.path}
+        />
+      );
+    }
   }
 
   if (props.path && props.path.length > 1) {
     dirList.unshift('..');
   }
 
-  const dirs = (dirList || []).map((dir: String, i: Number) => {
+  const dirs = (dirList || []).map((dir: string, i: number) => {
     return (
       <div key={i.toString()} className='dir'>
-        <Link href={props.path + dir}>{dir === '..' ? '👆 Parent Directory' : dir }</Link>
+        <Link href={join(props.path, dir)}>{dir === '..' ? '👆 Parent Directory' : dir }</Link>
       </div>
     );
   });
@@ -122,8 +186,7 @@ export default function Home(props: { filesObj:FilesObj, dirs:string[], path: st
           {dirs}
         </div>
         <div className='filesContainer'>
-          <h1>MUSICS {props.path}</h1>
-          {files}
+          {content}
         </div>
       </div>
     </>

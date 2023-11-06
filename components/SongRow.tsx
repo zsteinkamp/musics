@@ -1,6 +1,7 @@
 "use client";
 
 import moment from 'moment'
+import Link from 'next/link'
 import { MutableRefObject, useRef } from 'react'
 
 const ftime = (epochTimeMs: number): string => {
@@ -26,7 +27,7 @@ const SongRow = ({
 }:SongRowProps): JSX.Element | null => {
   const cover = fileObj.coverPath && (
     <div className="cover">
-      <img src={fileObj.coverPath} />
+      <Link href={myKey}><img src={fileObj.coverPath} /></Link>
     </div>
   );
   const mtime = ftime(fileObj.mtime);
@@ -54,14 +55,14 @@ const SongRow = ({
   };
 
   return (
-    <div key={myKey} className="song">
+    <div key={myKey} className="songRow">
       <div className="coverouter">{cover}</div>
       <div className="metaplayer">
         <div className="meta">
-          <h2>{myKey}</h2>
+          <h2><Link href={myKey}>{myKey}</Link></h2>
           <div>
             <p className="fname">{fileObj.file}</p>
-            <p className="mtime">{mtime}</p>
+            <p className="mtime" suppressHydrationWarning>{mtime}</p>
           </div>
         </div>
         <div>

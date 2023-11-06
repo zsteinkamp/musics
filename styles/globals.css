@@ -27,7 +27,27 @@ body {
   flex: 1 0;
 }
 
-.song {
+.songPage .fname {
+  font-size: 3rem;
+}
+.songPage img {
+  margin-top: 1rem;
+  max-height: 30rem;
+  max-width: 30rem;
+  object-fit: cover;
+}
+.songPage audio {
+  width: 100%;
+  max-width: 30rem;
+}
+.songPage .childList {
+  margin-top: 2rem;
+}
+.songPage .childList div label input {
+  margin-right: 0.5rem;
+}
+
+.songRow {
   display: grid;
   grid-template-columns: 10rem auto; 
   gap: 2rem;
@@ -35,48 +55,48 @@ body {
   margin-right: 2rem;
   margin-bottom: 2rem;
 }
-.song .coverouter {
+.songRow .coverouter {
   background-color: #eee;
 }
-.song img {
+.songRow img {
   height: 10rem;
   width: 10rem;
   object-fit: cover;
 }
-.song .metaplayer {
+.songRow .metaplayer {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.song .meta {
+.songRow .meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.song .meta p {
+.songRow .meta p {
   text-align: right;
 }
-.song .meta p,
-.song .meta h2 {
+.songRow .meta p,
+.songRow .meta h2 {
   margin: 0;
   margin-left: 1rem;
   margin-right: 1rem;
 }
-.song .meta h2 {
+.songRow .meta h2 {
   font-size: 2.5rem;
 }
-.song .fname {
+.songRow .fname {
   opacity: 0.75;
   white-space: nowrap;
 }
-.song .mtime {
+.songRow .mtime {
   opacity: 0.5;
   white-space: nowrap;
   font-size: 80%;
 }
-.song audio {
+.songRow audio {
   width: 100%;
 }
-.song .children {
+.songRow .children {
   display: none;
 }
