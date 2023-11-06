@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
 
 body {
-  font-family: "Roboto Condensed", sans;
+  font-family: 'Roboto Condensed', sans;
 }
 .outer {
   display: flex;
@@ -38,18 +38,41 @@ body {
 }
 .songPage audio {
   width: 100%;
+}
+.songPage .audioHolder {
+  width: 100%;
   max-width: 30rem;
+}
+.songPage .audioHolder p {
+  text-align: center;
 }
 .songPage .childList {
   margin-top: 2rem;
 }
+.songPage .childList div {
+  margin: 1rem;
+}
+.songPage .childList div label {
+  margin: auto;
+  display: block;
+  padding: 0.5rem;
+  width: 80%;
+  border-radius: 0.5rem;
+  text-align: center;
+}
 .songPage .childList div label input {
-  margin-right: 0.5rem;
+  display: none;
+}
+.songPage .childList div label .fileDate {
+  margin-left: 1rem;
+}
+.songPage .childList div label:has(input:checked) {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .songRow {
   display: grid;
-  grid-template-columns: 10rem auto; 
+  grid-template-columns: 10rem auto;
   gap: 2rem;
   min-height: 10rem;
   margin-right: 2rem;
