@@ -72,12 +72,21 @@ body {
 }
 
 .songRow {
+  max-width: 50rem;
   display: grid;
   grid-template-columns: 10rem auto;
   gap: 2rem;
   min-height: 10rem;
   margin-right: 2rem;
   margin-bottom: 2rem;
+}
+.songRow .metaplayer .meta h2 {
+  margin-left: 1.3rem;
+  font-size: 2rem;
+}
+.songRow .metaplayer .meta h2 a {
+  text-decoration: none;
+  color: black;
 }
 .songRow .coverouter {
   background-color: #eee;
@@ -99,6 +108,7 @@ body {
 }
 .songRow .meta p {
   text-align: right;
+  padding-right: 0.3rem;
 }
 .songRow .meta p,
 .songRow .meta h2 {

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import moment from 'moment'
+import { join } from 'path'
 
 type SongPageProps = {
   filesObj: Record<string, Record<string, any>>;
@@ -12,8 +13,11 @@ const SongPage = ({
   songPrefix,
   path,
 }: SongPageProps): JSX.Element | null => {
+  //console.log({ filesObj })
 
   const fileObj = filesObj[songPrefix]
+
+  //const fullPrefix = join(path, songPrefix)
 
   const [selFile, setSelFile] = useState(filesObj[songPrefix].children[0] as Record<string, any>)
 
