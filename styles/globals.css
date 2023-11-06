@@ -55,7 +55,8 @@ body {
 .songPage .childList div label {
   margin: auto;
   display: block;
-  padding: 0.5rem;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   width: 80%;
   border-radius: 0.5rem;
   text-align: center;

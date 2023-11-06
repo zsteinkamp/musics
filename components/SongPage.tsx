@@ -42,6 +42,7 @@ const SongPage = ({
             <audio
               preload="none"
               controls
+              autoPlay
               src={`/api/musics${adjPath + selFile.file}`}
             />
             <p>{(adjPath + selFile.file).substring(1)}</p>
