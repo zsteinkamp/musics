@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import moment from 'moment'
-import { join } from 'path'
+import Head from 'next/head'
 
 type SongPageProps = {
   filesObj: Record<string, Record<string, any>>;
@@ -36,12 +36,23 @@ const SongPage = ({
 
   const adjPath = songPrefix ? path.substring(0, path.length - songPrefix.length) : path
 
+  const title = songPrefix.substring(1)
+
   return (
     <>
       {selFile && selFile.file && (
-        <div className="songPage" key="a">
+        <div className="songPage">
+          <Head>
+            <title>{title}</title>
+            <meta property="og:type" content="music:song" />
+            <meta property="og:locale" content="en_US" />
+            <meta property="title" content={title} />
+            <meta property="og:title" content={title} />
+            {<meta property="og:description" content="by Zack Steinkamp" />}
+            {<meta property="og:image" content={`https://musics.steinkamp.us${fileObj.coverPath}`} />}
+          </Head>
           {cover}
-          <h1 className="fname">{songPrefix.substring(1)}</h1>
+          <h1 className="fname">{title}</h1>
           <div className="audioHolder">
             <audio
               preload="none"
