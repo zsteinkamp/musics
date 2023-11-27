@@ -66,7 +66,7 @@ const SongPage = ({
             {<meta property="og:description" content="by Zack Steinkamp" />}
             {<meta property="og:image" content={`https://musics.steinkamp.us${fileObj.coverPath}`} />}
           </Head>
-          <h1><Link href="/">MUSICS</Link> {pathLinks}</h1>
+          <h1><Link href="/">MUSICS</Link>{pathLinks}</h1>
           {cover}
           <h1 className="fname">{title}</h1>
           <div className="audioHolder">

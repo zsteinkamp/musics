@@ -13,17 +13,17 @@ const pExec = promisify(exec)
 type FilesObj = Record<string, any>;
 
 export async function getServerSideProps(context: any) {
-  // console.log({ params: context.params })
+  //console.log({ params: context.params })
   let path = join('/', ((context && context.params && context.params.slug && context.params.slug.join('/') + (context.params.slug.length > 0 ? '/' : '')) || ''))
   const root = '/musics'
   let base = join(root, path);
   let songPrefix = ''
 
-  console.log({ base, root, path })
+  //console.log({ base, root, path })
   let fileCmd = `find "${base}" -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3)$' | cut -d ' ' -f 2-`;
 
   if (!fs.existsSync(base)) {
-    // console.log({ dir: 'A FILE' })
+    //console.log({ dir: 'A FILE' })
     // this is a file
     base = base.replace(/[^/]+\/$/, '')
     const matches = path.match(/\/([^/]+)\/$/)
@@ -32,14 +32,14 @@ export async function getServerSideProps(context: any) {
     }
     path = path.replace(/\/[^/]*\/$/, '/')
     fileCmd = `find "${base}" -name '${songPrefix}*' -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3)$' | cut -d ' ' -f 2-`;
-    // console.log({ after: true, base, root, path, songPrefix })
+    //console.log({ after: true, base, root, path, songPrefix })
   } else {
-    // console.log({ dir: 'A DIRECTORY!' })
+    //console.log({ dir: 'A DIRECTORY!' })
   }
 
   //console.log({ base });
   //                             find files in /musics, sort newest first, only wav files
-  console.log({ base, path, songPrefix, fileCmd });
+  //console.log({ base, path, songPrefix, fileCmd });
   const filesStr = (await pExec(fileCmd)).stdout;
   //console.log('FILESTR', { filesStr, base });
 
@@ -53,7 +53,7 @@ export async function getServerSideProps(context: any) {
     }
     const bareFname = f.substring(base.length);
     const matches = f.match(/-\d+\.wav$/);
-    console.log({ base, matches, bareFname })
+    //console.log({ base, matches, bareFname })
     if (matches && matches.index) {
       const prefix = bareFname.substring(0, bareFname.length - matches[0].length)
       const mtime = fs.statSync(f).mtime.getTime();
@@ -117,7 +117,7 @@ type HomeProps = {
 }
 
 export default function Home({ songPrefix, filesObj, dirs, path }: HomeProps) {
-  // console.log({ path, songPrefix });
+  //console.log({ path, songPrefix });
 
   const dirList = [...(dirs || [])];
 
@@ -149,7 +149,7 @@ export default function Home({ songPrefix, filesObj, dirs, path }: HomeProps) {
       <>
         <h1><Link href="/">MUSICS</Link>{pathLinks}</h1>
         {Object.keys(filesObj).map((key) => {
-          // console.log({ path, key })
+          //console.log({ path, key })
           return (
             <SongRow
               key={key}
