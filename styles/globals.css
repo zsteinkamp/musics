@@ -3,6 +3,24 @@
 body {
   font-family: 'Roboto Condensed', sans;
 }
+h1 {
+  color: rgba(0,0,0,0.6);
+  height: 5rem;
+  display: table-cell;
+  vertical-align: middle;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+h1 em {
+  font-style: normal;
+  color: rgba(0,0,0,1.0);
+}
+h1 span {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
 .outer {
   display: flex;
   width: 100%;
@@ -13,7 +31,7 @@ body {
 .outer > .dirsContainer {
   flex: 1 1;
   max-width: 20rem;
-  padding-top: 1rem;
+  padding-top: 5rem;
 }
 
 .dir {
@@ -27,8 +45,15 @@ body {
   flex: 1 0;
 }
 
+.songPage h1 {
+  display: block;
+  width: 100%;
+  height: 1rem;
+}
 .songPage .fname {
-  font-size: 3rem;
+  height: 5rem;
+  vertical-align: bottom;
+  font-size: 5rem;
 }
 .songPage img {
   margin-top: 1rem;

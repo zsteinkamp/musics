@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import moment from 'moment'
 import Head from 'next/head'
+import Link from 'next/link'
 
 type SongPageProps = {
   filesObj: Record<string, Record<string, any>>;
@@ -13,9 +14,23 @@ const SongPage = ({
   songPrefix,
   path,
 }: SongPageProps): JSX.Element | null => {
-  //console.log({ filesObj })
+  //console.log({ filesObj, songPrefix, path })
 
   const fileObj = filesObj[songPrefix]
+
+  let pathLinks = []
+  const pathParts = path.split('/').filter((e) => !!e)
+  //console.log({ pathparts: pathParts.join(',') })
+  let pathAccum = ''
+  for (const pathPart of pathParts) {
+    pathLinks.push(<span key={`s${pathPart}`}>/</span>)
+    const newAccum = `${pathAccum}/${pathPart}`
+    pathLinks.push(
+      <em key={`l${pathPart}`}><Link href={newAccum}>{pathPart}</Link></em>
+    )
+    pathAccum = newAccum
+    //console.log({ pathAccum })
+  }
 
   //const fullPrefix = join(path, songPrefix)
 
@@ -34,9 +49,9 @@ const SongPage = ({
   );
   const mtime = ftime(fileObj.mtime);
 
-  const adjPath = songPrefix ? path.substring(0, path.length - songPrefix.length) : path
+  const adjPath = path //.substring(0, path.length - songPrefix.length)
 
-  const title = songPrefix.substring(1)
+  const title = songPrefix.substring(0)
 
   return (
     <>
@@ -51,22 +66,23 @@ const SongPage = ({
             {<meta property="og:description" content="by Zack Steinkamp" />}
             {<meta property="og:image" content={`https://musics.steinkamp.us${fileObj.coverPath}`} />}
           </Head>
+          <h1><Link href="/">MUSICS</Link> {pathLinks}</h1>
           {cover}
           <h1 className="fname">{title}</h1>
           <div className="audioHolder">
             <audio
               preload="none"
               controls
-              autoPlay
+              autoPlay={true}
               src={`/api/musics${adjPath + selFile.file}`}
             />
-            <p>{(adjPath + selFile.file).substring(1)}</p>
+            <p>{(adjPath + selFile.file).substring(0)}</p>
             <div className="childList">
               {filesObj[songPrefix].children.map((f: Record<string, any>, i: number) => {
                 return (<div key={f.file}>
                   <label>
                     <input type="radio" name="takes" value={f.file} key={f.file} checked={f === selFile} onChange={() => setSelFile(f)} />
-                    {f.file.substring(1)}
+                    {f.file.substring(0)}
                     <span className="fileDate" suppressHydrationWarning>{ftime(f.mtime)}</span>
                   </label>
                 </div>)

@@ -24,7 +24,7 @@ const SongRow = ({
   setActiveKey,
   audioRefs,
   path
-}:SongRowProps): JSX.Element | null => {
+}: SongRowProps): JSX.Element | null => {
   const cover = fileObj.coverPath && (
     <div className="cover">
       <Link href={myKey}><img src={fileObj.coverPath} /></Link>
@@ -40,7 +40,7 @@ const SongRow = ({
       audioRef.current?.play();
     } else {
       // Clicked on a different recording, pause the current one (if any) and play the new one
-      if (activeKey !== null) {
+      if (activeKey !== null && audioRefs.current[activeKey] && audioRefs.current[activeKey].current) {
         audioRefs.current[activeKey].current.pause();
       }
       audioRef.current?.play();
@@ -54,12 +54,14 @@ const SongRow = ({
     }
   };
 
+  //console.log({ path, myKey })
+
   return (
     <div key={myKey} className="songRow">
       <div className="coverouter">{cover}</div>
       <div className="metaplayer">
         <div className="meta">
-          <h2><Link href={myKey}>{myKey}</Link></h2>
+          <h2><Link href={`${path}${myKey}`}>{myKey}</Link></h2>
           <div>
             <p className="fname">{fileObj.file}</p>
             <p className="mtime" suppressHydrationWarning>{mtime}</p>
