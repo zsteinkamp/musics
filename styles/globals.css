@@ -4,7 +4,7 @@ body {
   font-family: 'Roboto Condensed', sans;
 }
 h1 {
-  color: rgba(0,0,0,0.6);
+  color: rgba(0, 0, 0, 0.6);
   display: table-cell;
   vertical-align: middle;
   padding: 1rem 0;
@@ -15,7 +15,7 @@ a {
 }
 h1 em {
   font-style: normal;
-  color: rgba(0,0,0,1.0);
+  color: rgba(0, 0, 0, 1);
 }
 h1 span {
   padding-left: 0.75rem;

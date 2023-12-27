@@ -12,6 +12,7 @@ type SongRowProps = {
   fileObj: Record<string, any>;
   myKey: string;
   activeKey: string | null;
+  nextKey: string | null;
   setActiveKey: Function;
   audioRefs: MutableRefObject<Record<string, any>>;
   path: string;
@@ -21,6 +22,7 @@ const SongRow = ({
   fileObj,
   myKey,
   activeKey,
+  nextKey,
   setActiveKey,
   audioRefs,
   path
@@ -36,6 +38,7 @@ const SongRow = ({
   audioRefs.current[myKey] = audioRef;
 
   const handlePlay = () => {
+    //console.log('IN HANDLEPLAY')
     if (activeKey === myKey) {
       audioRef.current?.play();
     } else {
@@ -49,12 +52,24 @@ const SongRow = ({
   };
 
   const handlePause = () => {
+    //console.log('IN HANDLEPAUSE')
     if (activeKey === myKey) {
       audioRef && audioRef.current && audioRef.current.pause();
     }
   };
 
   //console.log({ path, myKey })
+
+  const handleEnd = () => {
+    //console.log('IN HANDLEEND')
+    if (nextKey === null || !audioRefs.current) {
+      // should not happen
+      return;
+    }
+
+    // play the next song
+    audioRefs.current[nextKey] && audioRefs.current[nextKey].current.play()
+  };
 
   return (
     <div key={myKey} className="songRow">
@@ -72,7 +87,7 @@ const SongRow = ({
             preload="none"
             ref={audioRef}
             controls
-            onPlay={handlePlay} onPause={handlePause}
+            onPlay={handlePlay} onPause={handlePause} onEnded={handleEnd}
             src={`/api/musics${path + fileObj.file}`}
           />
         </div>
