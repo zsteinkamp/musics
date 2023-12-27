@@ -27,7 +27,7 @@ export async function getServerSideProps(context: any) {
   let base = join(root, path)
   let songPrefix = ''
 
-  console.log({ base, root, path })
+  //console.log({ base, root, path })
   let fileCmd = `find "${base}" -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3)$' | cut -d ' ' -f 2-`
 
   if (!fs.existsSync(base)) {
