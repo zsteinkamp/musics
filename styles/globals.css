@@ -69,7 +69,6 @@ h1 span {
 }
 .cover img,
 .songPage img {
-  margin-top: 1rem;
   max-height: 30rem;
   max-width: 30rem;
   object-fit: cover;
