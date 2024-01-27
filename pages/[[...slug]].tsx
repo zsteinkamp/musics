@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { join } from 'path'
 import fs from 'fs'
-import SongRow from '../components/SongRow'
-import SongPage from '../components/SongPage'
 import * as yaml from 'js-yaml'
-
 import { promisify } from 'util'
 import { exec } from 'child_process'
 import { useRef, useState } from 'react'
+
+import SongRow from '../components/SongRow'
+import SongPage from '../components/SongPage'
 
 const pExec = promisify(exec)
 
@@ -198,8 +198,8 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
           <Link href="/">MUSICS</Link>
           {pathLinks}
         </h1>
+        {dirMeta.cover && <div className="cover outerCover"><img alt={dirMeta.title || dirMeta.cover} src={join(base, dirMeta.cover)} /></div>}
         {dirMeta.title && <h2 className="poobah">{dirMeta.title}</h2>}
-        {dirMeta.cover && <div className="cover outerCover"><img src={join(base, dirMeta.cover)} /></div>}
         {
           filesObjKeys.map((key, idx) => {
             //console.log({ path, key })
@@ -240,6 +240,7 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
       <div className="outer">
         <div className="dirsContainer">{dirLinks}</div>
         <div className="filesContainer">{content}</div>
+        <div className="rightPad" />
       </div>
     </>
   )

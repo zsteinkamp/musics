@@ -77,7 +77,7 @@ const SongRow = ({
   //console.info({ fileObj, title })
 
   return (
-    <div key={myKey} className="songRow">
+    <div key={myKey} className={`songRow ${!showCover && "notitle"}`}>
       <div className={`coverouter ${!showCover && "zerowidth"}`}>{cover}</div>
       <div className="metaplayer">
         <div className="meta">
