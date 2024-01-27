@@ -11,6 +11,7 @@ const ftime = (epochTimeMs: number): string => {
 type SongRowProps = {
   fileObj: Record<string, any>;
   myKey: string;
+  showCover: boolean;
   activeKey: string | null;
   nextKey: string | null;
   setActiveKey: Function;
@@ -21,6 +22,7 @@ type SongRowProps = {
 const SongRow = ({
   fileObj,
   myKey,
+  showCover,
   activeKey,
   nextKey,
   setActiveKey,
@@ -71,12 +73,15 @@ const SongRow = ({
     audioRefs.current[nextKey] && audioRefs.current[nextKey].current.play()
   };
 
+  const title = fileObj.title || fileObj.file
+  //console.info({ fileObj, title })
+
   return (
     <div key={myKey} className="songRow">
-      <div className="coverouter">{cover}</div>
+      <div className={`coverouter ${!showCover && "zerowidth"}`}>{cover}</div>
       <div className="metaplayer">
         <div className="meta">
-          <h2><Link href={`${path}${myKey}`}>{myKey}</Link></h2>
+          <h2><Link href={`${path}${myKey}`}>{title}</Link></h2>
           <div>
             <p className="fname">{fileObj.file}</p>
             <p className="mtime" suppressHydrationWarning>{mtime}</p>

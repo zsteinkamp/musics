@@ -44,6 +44,14 @@ h1 span {
   flex: 1 0;
 }
 
+.poobah {
+  font-size: 500%;
+  margin-bottom: 0;
+}
+.poobah,
+.outerCover {
+  margin-left: 12rem;
+}
 .songPage h1 {
   display: block;
   width: 100%;
@@ -52,6 +60,7 @@ h1 span {
   vertical-align: bottom;
   font-size: 5rem;
 }
+.cover img,
 .songPage img {
   margin-top: 1rem;
   max-height: 30rem;
@@ -112,6 +121,9 @@ h1 span {
 }
 .songRow .coverouter {
   background-color: #eee;
+}
+.songRow .coverouter.zerowidth {
+  width: 0;
 }
 .songRow img {
   height: 10rem;
