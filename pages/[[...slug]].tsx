@@ -230,7 +230,7 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
     return (
       <div key={i.toString()} className="dir">
         <Link href={join(path, dir)}>
-          {dir === '..' ? '👆 Parent Directory' : dir} /
+          {dir === '..' ? '👆 Parent Directory' : dir}&nbsp;/
         </Link>
       </div>
     )
