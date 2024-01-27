@@ -73,7 +73,7 @@ const SongRow = ({
     audioRefs.current[nextKey] && audioRefs.current[nextKey].current.play()
   };
 
-  const title = fileObj.title || fileObj.file
+  const title = fileObj.title || myKey
   //console.info({ fileObj, title })
 
   return (
