@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
 
 body {
   font-family: 'Roboto Condensed', sans;
@@ -51,6 +51,14 @@ h1 span {
 .outer > .filesContainer > h2 {
   margin: 2rem auto;
 }
+.outer > .filesContainer > p {
+  font-size: 1.6rem;
+  color: #444c;
+  text-align: justify;
+  text-justify: inter-word;
+  font-weight: 300;
+  margin-bottom: 4rem;
+}
 .outer > .rightPad {
   flex: 1 0;
   max-width: 20rem;
@@ -66,6 +74,9 @@ h1 span {
   text-align: center;
   margin: 2rem auto;
 }
+.songPage {
+  max-width: 40rem;
+}
 .songPage h1 {
   display: block;
   width: 100%;
@@ -78,8 +89,7 @@ h1 span {
 }
 .cover img,
 .songPage img {
-  max-height: 30rem;
-  max-width: 30rem;
+  max-width: 100%;
   object-fit: cover;
   box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.1);
 }
