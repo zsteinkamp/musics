@@ -205,9 +205,8 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
           filesObjKeys.map((key, idx) => {
             //console.log({ path, key })
             return (
-              <div className="">
+              <div key={key} className="">
                 <SongRow
-                  key={key}
                   audioRefs={audioRefs}
                   activeKey={activeKey}
                   nextKey={idx < filesObjKeys.length - 1 ? filesObjKeys[idx + 1] : null}
