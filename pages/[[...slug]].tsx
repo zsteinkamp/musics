@@ -199,22 +199,25 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
           {pathLinks}
         </h1>
         {dirMeta.cover && <div className="cover outerCover"><img alt={dirMeta.title || dirMeta.cover} src={join(base, dirMeta.cover)} /></div>}
-        {dirMeta.title && <h2 className="poobah">{dirMeta.title}</h2>}
+        {dirMeta.title && <h2 className="">{dirMeta.title}</h2>}
+        {dirMeta.description && <p className="">{dirMeta.description}</p>}
         {
           filesObjKeys.map((key, idx) => {
             //console.log({ path, key })
             return (
-              <SongRow
-                key={key}
-                audioRefs={audioRefs}
-                activeKey={activeKey}
-                nextKey={idx < filesObjKeys.length - 1 ? filesObjKeys[idx + 1] : null}
-                setActiveKey={setActiveKey}
-                myKey={key}
-                showCover={!dirMeta.cover}
-                fileObj={filesObj[key]}
-                path={path}
-              />
+              <div className="">
+                <SongRow
+                  key={key}
+                  audioRefs={audioRefs}
+                  activeKey={activeKey}
+                  nextKey={idx < filesObjKeys.length - 1 ? filesObjKeys[idx + 1] : null}
+                  setActiveKey={setActiveKey}
+                  myKey={key}
+                  showCover={!dirMeta.cover}
+                  fileObj={filesObj[key]}
+                  path={path}
+                />
+              </div>
             )
           })
         }
@@ -239,7 +242,7 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
     <>
       <div className="outer">
         <div className="dirsContainer">{dirLinks}</div>
-        <div className="filesContainer">{content}</div>
+        <div className={`filesContainer ${dirMeta.cover && "albumPage"}`}>{content}</div>
         <div className="rightPad" />
       </div>
     </>
