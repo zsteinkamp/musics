@@ -1,38 +1,77 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# musics
+
+This is a filesystem-driven web application intended to show an interface for
+browsing directory hierarchies of audio files.
+
+I developed it so that I could have a live, public view into the directory where
+I render audio files from my music making projects. This lets me listen to any
+in-progress song anywhere in the world, served from my home network at
+https://musics.steinkamp.us/.
+
+You can use this same software for your music folder and keep within your own
+private home network, or make it public for the world to enjoy.
+
+| ![Screenshot One](/public/screenshot1.png) | ![Screenshot Two](/public/screenshot2.png) |
+| ------------------------------------------ | :----------------------------------------- |
 
 ## Getting Started
 
-First, run the development server:
+First, edit the `docker-compose.yml` file and map the `musics` volume to where
+your music directory lives. The checked-in example in the `main` branch is what
+I use to connect to an NFS volume on my network.
+
+Then, run:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+make prod
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This will build and run the container with your music directory mounted read-only.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Open [http://localhost:3141](http://localhost:3141) with your browser to see the result.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## `album.yml` Files
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+A directory may contain a special metadata file called `album.yml`. This file
+lets you customize how that directory is presented in the application.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+An example of `album.yml` is:
 
-## Learn More
+```yaml
+title: On The Scene
+cover: album.jpg
+tracks:
+  - prefix: mirrorImage
+    title: Mirror Image
+  - prefix: timeAlwaysMoving
+    title: Time Always Moving
+  - prefix: purityOfEssence
+    title: Purity of Essence
+  - prefix: onTheScene
+    title: On The Scene
+```
 
-To learn more about Next.js, take a look at the following resources:
+This example shows how to override the `title` displayed on the page, the
+filename of a `cover` image to display at the top of the page, as well as a list
+of `tracks` in the order you prefer, with a custom title to display for each
+track.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The `album.yml` file may contain some or all of the above customizations, so
+this is a perfectly valid file too:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```yaml
+title: On The Scene
+```
 
-## Deploy on Vercel
+## Development
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project has a Visual Studio Code `.devcontainer` defined, so the best way
+to work on this is to use that facility of VSCode ("Reopen in Container").
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The development server will be available at [http://localhost:3142/](http://localhost:3142/).
+
+## Contributing
+
+If you have an idea to improve this application, please open an issue in this
+repo, or send me an email at [zack@steinkamp.us](mailto:zack@steinkamp.us), or
+fork this repo and open a pull request. Let's make software better together!

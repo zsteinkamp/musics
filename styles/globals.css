@@ -1,7 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
 
 body {
-  font-family: "Roboto Condensed", sans;
+  font-family: 'Roboto Condensed', sans;
+}
+h1 {
+  color: rgba(0, 0, 0, 0.6);
+  display: table-cell;
+  vertical-align: middle;
+  padding: 1rem 0;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+h1 em {
+  font-style: normal;
+  color: rgba(0, 0, 0, 1);
+}
+h1 span {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 .outer {
   display: flex;
@@ -13,12 +31,11 @@ body {
 .outer > .dirsContainer {
   flex: 1 1;
   max-width: 20rem;
-  padding-top: 1rem;
+  padding-top: 5rem;
 }
 
 .dir {
   margin-bottom: 1rem;
-  height: 2rem;
   text-align: right;
   padding-right: 4rem;
 }
@@ -26,57 +43,155 @@ body {
 .outer > .filesContainer {
   flex: 1 0;
 }
+.outer > .filesContainer.albumPage {
+  max-width: 40rem;
+}
+.outer > .filesContainer > div,
+.outer > .filesContainer > p,
+.outer > .filesContainer > h2 {
+  margin: 2rem auto;
+}
+.outer > .filesContainer > p {
+  font-size: 1.6rem;
+  color: #444c;
+  text-align: justify;
+  text-justify: inter-word;
+  font-weight: 300;
+  margin-bottom: 4rem;
+}
+.outer > .rightPad {
+  flex: 1 0;
+  max-width: 20rem;
+}
 
-.song {
+.outer > .filesContainer > h2 {
+  font-size: 5rem;
+  margin-bottom: 0;
+  max-width: 30rem;
+}
+.poobah,
+.outerCover {
+  text-align: center;
+  margin: 2rem auto;
+}
+.songPage {
+  max-width: 40rem;
+}
+.songPage h1 {
+  display: block;
+  width: 100%;
+}
+.songPage .fname {
+  vertical-align: bottom;
+  font-size: 5rem;
+  text-align: center;
+  max-width: 30rem;
+}
+.cover img,
+.songPage img {
+  max-width: 100%;
+  object-fit: cover;
+  box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.1);
+}
+.songPage audio {
+  width: 100%;
+}
+.songPage .audioHolder {
+  width: 100%;
+  max-width: 30rem;
+}
+.songPage .audioHolder p {
+  text-align: center;
+}
+.songPage .childList {
+  margin-top: 2rem;
+}
+.songPage .childList div {
+  margin: 1rem;
+}
+.songPage .childList div label {
+  margin: auto;
+  display: block;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: 80%;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+.songPage .childList div label input {
+  display: none;
+}
+.songPage .childList div label .fileDate {
+  margin-left: 1rem;
+}
+.songPage .childList div label:has(input:checked) {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.songRow {
   display: grid;
-  grid-template-columns: 10rem auto; 
-  gap: 2rem;
+  grid-template-columns: 12rem auto;
   min-height: 10rem;
-  margin-right: 2rem;
-  margin-bottom: 2rem;
+  margin: 0 0;
 }
-.song .coverouter {
-  background-color: #eee;
+.songRow.notitle {
+  grid-template-columns: 0rem auto;
+  min-height: 5rem;
 }
-.song img {
+.songRow .metaplayer .meta h2 {
+  margin-left: 1.3rem;
+  font-size: 2rem;
+}
+.songRow .metaplayer .meta h2 a {
+  text-decoration: none;
+  color: black;
+}
+.songRow .coverouter {
+}
+.songRow .coverouter.zerowidth {
+  width: 0;
+}
+.songRow img {
   height: 10rem;
   width: 10rem;
   object-fit: cover;
+  margin-right: 2rem;
 }
-.song .metaplayer {
+.songRow .metaplayer {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.song .meta {
+.songRow .meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.song .meta p {
+.songRow .meta p {
   text-align: right;
+  padding-right: 0.3rem;
 }
-.song .meta p,
-.song .meta h2 {
+.songRow .meta p,
+.songRow .meta h2 {
   margin: 0;
   margin-left: 1rem;
   margin-right: 1rem;
 }
-.song .meta h2 {
+.songRow .meta h2 {
   font-size: 2.5rem;
 }
-.song .fname {
+.songRow .fname {
   opacity: 0.75;
   white-space: nowrap;
 }
-.song .mtime {
+.songRow .mtime {
   opacity: 0.5;
   white-space: nowrap;
   font-size: 80%;
 }
-.song audio {
+.songRow audio {
   width: 100%;
 }
-.song .children {
+.songRow .children {
   display: none;
 }
