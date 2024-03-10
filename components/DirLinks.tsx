@@ -3,16 +3,16 @@ import { join } from 'path'
 
 type DirLinksProps = {
   path: string
-  dirList: string[]
+  dirs: string[]
   className: String
 };
 
 const DirLinks = ({
   path,
-  dirList,
+  dirs,
   className = "",
 }: DirLinksProps): JSX.Element | null => {
-  const dirLinks = dirList.map((dir: string, i: number) => {
+  const dirLinks = dirs.map((dir: string, i: number) => {
     return (
       <div key={i.toString()} className="py-2">
         <Link className="" href={join(path, dir)}>

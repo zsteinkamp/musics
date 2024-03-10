@@ -149,23 +149,18 @@ type HomeProps = {
 export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }: HomeProps) {
   //console.log({ base, path, songPrefix, dirs });
 
-  const dirList = [...(dirs || [])]
-  if (path !== '/') {
-    dirList.unshift('..')
-  }
-
   const audioRefs = useRef({})
 
   return (
     <div className="outer max-w-4xl m-auto p-8">
       <Header path={path} className="" />
       <div className="md:grid md:grid-cols-[1fr_3fr] md:gap-8">
-        <DirLinks dirList={dirList} path={path} className="
-          md:max-w-[12rem] mb-8 py-4 px-6
+        <DirLinks dirs={dirs} path={path} className={`
+          md:max-w-[12rem] ${dirs.length && 'mb-8 py-4'} px-6
           md:bg-gradient-to-l rounded-md
           md:from-shadebg-light md:to-pagebg-light
           md:dark:to-pagebg-dark md:dark:from-shadebg-dark
-          " />
+          `} />
         {path.startsWith('/about') ? (<AboutPage />) :
           songPrefix ? (
             <SongPage filesObj={filesObj} path={path} songPrefix={songPrefix} />
