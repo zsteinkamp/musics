@@ -177,7 +177,8 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta, 
       <Header path={path} className="" />
       <div className="">
         <DirLinks dirs={dirs} subdirMeta={subdirMeta} path={path} className={`
-          ${dirs.length && 'mb-8 py-4'} px-0
+          px-0
+          ${dirs.length && 'mb-8 py-0'}
           `} />
         {path.startsWith('/about') ? (<AboutPage />) :
           songPrefix ? (
