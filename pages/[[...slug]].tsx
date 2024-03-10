@@ -182,26 +182,29 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
 
   const dirLinks = (dirList || []).map((dir: string, i: number) => {
     return (
-      <div key={i.toString()} className="dir">
-        <Link href={join(path, dir)}>
+      <div key={i.toString()} className="">
+        <Link className="" href={join(path, dir)}>
           /&nbsp;{dir}
         </Link>
       </div>
     )
   })
   return (
-    <>
-      <div className="outer max-w-4xl m-auto">
-        <div className="m-8">
-          <Header pathLinks={pathLinks} />
-          {songPrefix ? (
-            <SongPage dirLinks={dirLinks} filesObj={filesObj} path={path} songPrefix={songPrefix} />
-          ) : (
-            <DirListing dirLinks={dirLinks} path={path} dirMeta={dirMeta}
-              filesObj={filesObj} base={base} audioRefs={audioRefs} />
-          )}
-        </div>
+    <div className="outer max-w-4xl m-auto p-8">
+      <Header pathLinks={pathLinks} className="" />
+      <div className="md:grid md:grid-cols-[1fr_3fr] md:gap-8">
+        <DirLinks dirLinks={dirLinks} className="max-w-[12rem] mb-8 py-4 px-6
+          md:bg-gradient-to-l rounded-md
+          md:from-shadebg-light md:to-pagebg-light
+          md:dark:to-pagebg-dark md:dark:from-shadebg-dark
+          " />
+        {songPrefix ? (
+          <SongPage filesObj={filesObj} path={path} songPrefix={songPrefix} />
+        ) : (
+          <DirListing path={path} dirMeta={dirMeta}
+            filesObj={filesObj} base={base} audioRefs={audioRefs} />
+        )}
       </div>
-    </>
+    </div>
   )
 }

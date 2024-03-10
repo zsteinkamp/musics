@@ -76,14 +76,18 @@ const SongRow = ({
         <div>
           <Link href={myKey}><img className="" src={fileObj.coverPath} /></Link>
         </div>
-      ) : (<div className="w-full aspect-square bg-slate-100"> </div>)}</div>
+      ) : (<div className="w-full aspect-square
+          sm:bg-gradient-to-b rounded-md
+          sm:from-shadebg-light sm:to-pagebg-light
+          sm:dark:to-pagebg-dark sm:dark:from-shadebg-dark
+       "> </div>)}</div>
       <div className="mb-8">
-        <div className="grid grid-cols-[2fr_1fr]">
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr]">
           <h2 className="font-header text-3xl leading-normal truncate">
             <Link href={`${path}${myKey}`}>{title}</Link>
           </h2>
           <div className="truncate ml-4">
-            <p className="truncate">{fileObj.file}</p>
+            <p className="truncate text-right">{fileObj.file}</p>
             <Timestamp timestamp={fileObj.mtime} className="truncate text-right" />
           </div>
         </div>
