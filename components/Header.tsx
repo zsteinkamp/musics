@@ -1,4 +1,5 @@
-import Link from "next/link";
+import Link from "next/link"
+import ThemeSwitcher from "@/components/ThemeSwitcher"
 
 type HeaderProps = {
   pathLinks: JSX.Element[]
@@ -10,11 +11,14 @@ const Header = ({
   className = "",
 }: HeaderProps): JSX.Element | null => {
   return (
-    <h1 className={`text-headertext-light dark:text-headertext-dark text-4xl md:text-4xl
-      font-header mb-8 truncate ${className}`}>
-      <Link href="/">MUSICS</Link>
-      {pathLinks}
-    </h1>
+    <div className="grid grid-cols-[1fr_2rem]">
+      <h1 className={`text-headertext-light dark:text-headertext-dark text-4xl md:text-4xl
+        font-header mb-8 truncate ${className}`}>
+        <Link href="/">MUSICS</Link>
+        {pathLinks}
+      </h1>
+      <ThemeSwitcher className="mb-8" />
+    </div>
   )
 }
 

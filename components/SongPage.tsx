@@ -60,7 +60,13 @@ const SongPage = ({
           <div className="">
             <img className="w-full object-cover p-4 shadow-xl" src={fileObj.coverPath} />
           </div>)}
-        <h1 className="text-6xl font-bold font-header mt-8 mb-4 text-center truncate">{title}</h1>
+        <h1 className="
+          text-6xl font-bold
+          text-headertext-light dark:text-headertext-dark
+          font-header mt-8 mb-4 text-center truncate
+          ">
+          {title}
+        </h1>
         <div className="">
           <audio
             preload="none"
@@ -72,20 +78,24 @@ const SongPage = ({
           <p className="text-center mt-2">{(path + selFile.file).substring(1)}</p>
           <div className="mt-8">
             {filesObj[songPrefix].children.map((f: Record<string, any>, i: number) => {
-              return (<div className="p-4 cursor-pointer
-              rounded-xl
-              bg-gradient-to-l
-              has-[:checked]:from-shadebg-light
-              has-[:checked]:to-pagebg-light
-              has-[:checked]:dark:to-pagebg-dark
-              has-[:checked]:dark:from-shadebg-dark
-              " key={f.file}>
-                <label className="">
-                  <input type="radio" className="hidden" name="takes" value={f.file} key={f.file} checked={f === selFile} onChange={() => setSelFile(f)} />
+              return (
+                <label className="
+                    cursor-pointer block p-4
+                    rounded-xl
+                    bg-gradient-to-l
+                    has-[:checked]:from-shadebg-light
+                    has-[:checked]:to-pagebg-light
+                    has-[:checked]:dark:to-pagebg-dark
+                    has-[:checked]:dark:from-shadebg-dark
+                    " key={f.file}>
+                  <input type="radio" className="hidden" name="takes"
+                    value={f.file} key={f.file} checked={f === selFile}
+                    onChange={() => setSelFile(f)}
+                  />
                   {f.file.substring(0)}
                   <Timestamp timestamp={fileObj.mtime} />
                 </label>
-              </div>)
+              )
             })}
           </div>
         </div>
