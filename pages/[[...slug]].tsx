@@ -156,31 +156,9 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
 
   const audioRefs = useRef({})
 
-  let pathLinks = []
-  if (path !== '/') {
-    const pathParts = path
-      .substring(1)
-      .split('/')
-      .filter((e) => !!e)
-    let pathAccum = ''
-    let newAccum = ''
-    for (const pathPart of pathParts) {
-      pathLinks.push(<span className="ml-2 mr-2" key={`s${pathPart}`}>/</span>)
-      newAccum = `${pathAccum}/${pathPart}`
-      pathLinks.push(
-        <span className="" key={`e${pathPart}`}>
-          <Link href={newAccum}>{pathPart}</Link>
-        </span>
-      )
-      pathAccum = newAccum
-    }
-  }
-
-  //console.log({ dirList })
-
   return (
     <div className="outer max-w-4xl m-auto p-8">
-      <Header pathLinks={pathLinks} className="" />
+      <Header path={path} className="" />
       <div className="md:grid md:grid-cols-[1fr_3fr] md:gap-8">
         <DirLinks dirList={dirList} path={path} className="
           md:max-w-[12rem] mb-8 py-4 px-6

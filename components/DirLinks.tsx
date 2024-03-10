@@ -12,7 +12,7 @@ const DirLinks = ({
   dirList,
   className = "",
 }: DirLinksProps): JSX.Element | null => {
-  const dirLinks = (dirList || []).map((dir: string, i: number) => {
+  const dirLinks = dirList.map((dir: string, i: number) => {
     return (
       <div key={i.toString()} className="py-2">
         <Link className="" href={join(path, dir)}>
