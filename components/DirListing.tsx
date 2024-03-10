@@ -44,7 +44,7 @@ const DirListing = ({
       </div>
       }
       {dirMeta.title && <h2 className="
-      text-header-light dark:text-header-dark
+      text-headertext-light dark:text-headertext-dark
         font-header text-5xl my-4 font-bold
       ">{dirMeta.title}</h2>}
       {dirMeta.description && <p className="mb-8">{dirMeta.description}</p>}
