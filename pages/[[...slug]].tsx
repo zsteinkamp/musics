@@ -34,7 +34,7 @@ export async function getServerSideProps(context: any) {
   // songPrefix is the part of the filename prior to the -NN.wav suffix.
   let songPrefix = ''
 
-  console.log({ base, root, path })
+  //console.log({ base, root, path })
   // get audio files in the current directory (path = directory is the base case)
   let fileCmd = `find "${base}" -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3)$' | cut -d ' ' -f 2-`
 
@@ -50,7 +50,7 @@ export async function getServerSideProps(context: any) {
     fileCmd = `find "${base}" -name '${songPrefix}*' -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3)$' | cut -d ' ' -f 2-`
     //console.log({ after: true, base, root, path, songPrefix })
     //} else {
-    //  console.log({ dir: 'A DIRECTORY!' })
+    //console.log({ dir: 'A DIRECTORY!' })
   }
 
   //console.log({ base, path, songPrefix, fileCmd });
@@ -118,7 +118,7 @@ export async function getServerSideProps(context: any) {
     }
   }
 
-  console.log({ path });
+  //console.log({ path });
 
   return {
     props: {
@@ -150,9 +150,7 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
   //console.log({ base, path, songPrefix, dirs });
 
   const dirList = [...(dirs || [])]
-  console.log('OUT HERE NOFO', { path })
   if (path !== '/') {
-    console.log('IN HERE NOFO')
     dirList.unshift('..')
   }
 
