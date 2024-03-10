@@ -16,11 +16,7 @@ private home network, or make it public for the world to enjoy.
 
 ## Getting Started
 
-First, edit the `docker-compose.yml` file and map the `musics` volume to where
-your music directory lives. The checked-in example in the `main` branch is what
-I use to connect to an NFS volume on my network.
-
-First, run:
+Clone this repo, then run:
 
 ```bash
 make
