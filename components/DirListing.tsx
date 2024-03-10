@@ -28,11 +28,16 @@ const DirListing = ({
 
   if (dirMeta.sort === 'newest') {
     filesArr.sort((a: FileMetaType, b: FileMetaType) => {
+      return b.mtime - a.mtime
+    })
+  } else if (dirMeta.sort === 'oldest') {
+    filesArr.sort((a: FileMetaType, b: FileMetaType) => {
       return a.mtime - b.mtime
     })
   } else {
+    // default to alpha
     filesArr.sort((a: FileMetaType, b: FileMetaType) => {
-      return a.file > b.file ? 1 : -1
+      return a.file.toLowerCase() > b.file.toLowerCase() ? 1 : -1
     })
   }
   let filesObjKeys = filesArr.map((e) => e.file.replace(/(-\d+)?.(wav|aif|mp3|m4a)$/, ""))
