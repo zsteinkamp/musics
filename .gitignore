@@ -35,9 +35,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+.env
 docker-compose.yml
 docker-compose.yml.ORIG
 docker-compose.yml.BAK
-nginx.config
-nginx.config.ORIG
-nginx.config.BAK
+nginx.conf
+nginx.conf.ORIG
+nginx.conf.BAK
