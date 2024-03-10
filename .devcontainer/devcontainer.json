@@ -6,6 +6,9 @@
   "customizations": {
     "vscode": {
       "extensions": [
+        "bradlc.vscode-tailwindcss",
+        "csstools.postcss",
+        "rvest.vs-code-prettier-eslint",
         "esbenp.prettier-vscode"
       ]
     }

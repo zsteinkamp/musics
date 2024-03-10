@@ -3,6 +3,7 @@
 import moment from 'moment'
 import Link from 'next/link'
 import { MutableRefObject, useRef } from 'react'
+import Timestamp from './Timestamp';
 
 const ftime = (epochTimeMs: number): string => {
   return moment(epochTimeMs).format("YYYY-MM-DD HH:mm");
@@ -29,13 +30,6 @@ const SongRow = ({
   audioRefs,
   path
 }: SongRowProps): JSX.Element | null => {
-  const cover = fileObj.coverPath && (
-    <div className="cover">
-      <Link href={myKey}><img src={fileObj.coverPath} /></Link>
-    </div>
-  );
-  const mtime = ftime(fileObj.mtime);
-
   const audioRef = useRef<HTMLAudioElement>(null);
   audioRefs.current[myKey] = audioRef;
 
@@ -77,19 +71,26 @@ const SongRow = ({
   //console.info({ fileObj, title })
 
   return (
-    <div key={myKey} className={`songRow ${!showCover && "notitle"}`}>
-      <div className={`coverouter ${!showCover && "zerowidth"}`}>{cover}</div>
-      <div className="metaplayer">
-        <div className="meta">
-          <h2><Link href={`${path}${myKey}`}>{title}</Link></h2>
-          <div>
-            <p className="fname">{fileObj.file}</p>
-            <p className="mtime" suppressHydrationWarning>{mtime}</p>
+    <div key={myKey} className='grid sm:grid-cols-[6.5rem_1fr] gap-8'>
+      <div className="hidden sm:block mb-8 w-[6.5rem]">{fileObj.coverPath ? (
+        <div>
+          <Link href={myKey}><img className="" src={fileObj.coverPath} /></Link>
+        </div>
+      ) : (<div className="w-full aspect-square bg-slate-100"> </div>)}</div>
+      <div className="mb-8">
+        <div className="grid grid-cols-[2fr_1fr]">
+          <h2 className="font-header text-3xl leading-normal truncate">
+            <Link href={`${path}${myKey}`}>{title}</Link>
+          </h2>
+          <div className="truncate ml-4">
+            <p className="truncate">{fileObj.file}</p>
+            <Timestamp timestamp={fileObj.mtime} className="truncate text-right" />
           </div>
         </div>
         <div>
           <audio
             preload="none"
+            className="w-full"
             ref={audioRef}
             controls
             onPlay={handlePlay} onPause={handlePause} onEnded={handleEnd}
@@ -97,7 +98,7 @@ const SongRow = ({
           />
         </div>
       </div>
-    </div>
+    </div >
   );
   //      {fileObj.children && (
   //        <div className="children">

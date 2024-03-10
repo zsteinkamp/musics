@@ -1,18 +1,21 @@
 import { useState } from 'react'
-import moment from 'moment'
 import Head from 'next/head'
 import Link from 'next/link'
+import Timestamp from './Timestamp'
+import DirLinks from './DirLinks'
 
 type SongPageProps = {
-  filesObj: Record<string, Record<string, any>>;
-  songPrefix: string;
-  path: string;
+  filesObj: Record<string, Record<string, any>>
+  songPrefix: string
+  path: string
+  dirLinks: JSX.Element[]
 };
 
 const SongPage = ({
   filesObj,
   songPrefix,
   path,
+  dirLinks,
 }: SongPageProps): JSX.Element | null => {
   //console.log({ filesObj, songPrefix, path })
 
@@ -36,61 +39,57 @@ const SongPage = ({
 
   const [selFile, setSelFile] = useState(filesObj[songPrefix].children[0] as Record<string, any>)
 
-  const ftime = (epochTimeMs: number): string => {
-    return moment(epochTimeMs).format("YYYY-MM-DD ddd HH:mm");
-  };
-
   //console.log({ fileObj, filesObj: filesObj })
-
-  const cover = fileObj.coverPath && (
-    <div className="cover">
-      <img src={fileObj.coverPath} />
-    </div>
-  );
-  const mtime = ftime(fileObj.mtime);
-
-  const adjPath = path //.substring(0, path.length - songPrefix.length)
 
   const title = songPrefix.substring(0)
 
-  return (
+  return selFile && selFile.file && (
     <>
-      {selFile && selFile.file && (
-        <div className="songPage">
-          <Head>
-            <title>{title}</title>
-            <meta property="og:type" content="music:song" />
-            <meta property="og:locale" content="en_US" />
-            <meta property="title" content={title} />
-            <meta property="og:title" content={title} />
-            {<meta property="og:description" content="by Zack Steinkamp" />}
-            {<meta property="og:image" content={`https://musics.steinkamp.us${fileObj.coverPath}`} />}
-          </Head>
-          <h1><Link href="/">MUSICS</Link>{pathLinks}</h1>
-          {cover}
-          <h1 className="fname">{title}</h1>
-          <div className="audioHolder">
+      <Head>
+        <title>{title}</title>
+        <meta property="og:type" content="music:song" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="title" content={title} />
+        <meta property="og:title" content={title} />
+        {<meta property="og:description" content="by Zack Steinkamp" />}
+        {<meta property="og:image" content={`https://musics.steinkamp.us${fileObj.coverPath}`} />}
+      </Head>
+      <div className="md:grid md:grid-cols-[1fr_3fr]">
+        <DirLinks dirLinks={dirLinks} className="mb-8" />
+        <div className="">
+          {fileObj.coverPath && (
+            <div className="">
+              <img className="w-full object-cover p-4 shadow-xl" src={fileObj.coverPath} />
+            </div>)}
+          <h1 className="text-5xl font-header mt-8 mb-4 text-center ">{title}</h1>
+          <div className="">
             <audio
               preload="none"
+              className="w-full"
               controls
-              autoPlay={true}
-              src={`/api/musics${adjPath + selFile.file}`}
+              autoPlay={false}
+              src={`/api/musics${path + selFile.file}`}
             />
-            <p>{(adjPath + selFile.file).substring(0)}</p>
-            <div className="childList">
+            <p className="text-center mt-2">{(path + selFile.file).substring(1)}</p>
+            <div className="mt-8">
               {filesObj[songPrefix].children.map((f: Record<string, any>, i: number) => {
-                return (<div key={f.file}>
-                  <label>
-                    <input type="radio" name="takes" value={f.file} key={f.file} checked={f === selFile} onChange={() => setSelFile(f)} />
+                return (<div className="p-4 cursor-pointer
+                has-[:checked]:bg-shadebg-light
+                has-[:checked]:color-shadetext-light
+                dark:has-[:checked]:bg-shadebg-dark
+                dark:has-[:checked]:color-shadetext-dark
+                " key={f.file}>
+                  <label className="">
+                    <input type="radio" className="hidden" name="takes" value={f.file} key={f.file} checked={f === selFile} onChange={() => setSelFile(f)} />
                     {f.file.substring(0)}
-                    <span className="fileDate" suppressHydrationWarning>{ftime(f.mtime)}</span>
+                    <Timestamp timestamp={fileObj.mtime} />
                   </label>
                 </div>)
               })}
             </div>
           </div>
         </div>
-      )}
+      </div>
     </>
   )
 }

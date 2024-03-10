@@ -6,12 +6,14 @@ import { promisify } from 'util'
 import { exec } from 'child_process'
 import { useRef, useState } from 'react'
 
-import SongRow from '../components/SongRow'
-import SongPage from '../components/SongPage'
+import SongPage from '@/components/SongPage'
+import Header from '@/components/Header'
+import DirListing from '@/components/DirListing'
+import DirLinks from '@/components/DirLinks'
 
 const pExec = promisify(exec)
 
-type FilesObj = Record<string, any>
+export type FilesObj = Record<string, any>
 
 export async function getServerSideProps(context: any) {
   //console.log({ params: context.params })
@@ -30,7 +32,7 @@ export async function getServerSideProps(context: any) {
   // songPrefix is the part of the filename prior to the -NN.wav suffix.
   let songPrefix = ''
 
-  //console.log({ base, root, path })
+  console.log({ base, root, path })
   // get audio files in the current directory (path = directory is the base case)
   let fileCmd = `find "${base}" -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3)$' | cut -d ' ' -f 2-`
 
@@ -42,7 +44,6 @@ export async function getServerSideProps(context: any) {
     if (matches && matches[1]) {
       songPrefix = matches[1]
     }
-    path = path.replace(/\/[^/]*\/$/, '/')
     // fileCmd will give the versions of the given songPrefix, sorted by descending date
     fileCmd = `find "${base}" -name '${songPrefix}*' -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3)$' | cut -d ' ' -f 2-`
     //console.log({ after: true, base, root, path, songPrefix })
@@ -115,7 +116,7 @@ export async function getServerSideProps(context: any) {
     }
   }
 
-  //console.log(filesObj);
+  console.log({ path });
 
   return {
     props: {
@@ -149,100 +150,57 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
   //console.log({ base, path, songPrefix, dirs });
 
   const dirList = [...(dirs || [])]
+  console.log('OUT HERE NOFO', { path })
+  if (path !== '/') {
+    console.log('IN HERE NOFO')
+    dirList.unshift('..')
+  }
 
-  const [activeKey, setActiveKey] = useState(null)
   const audioRefs = useRef({})
 
-  let content = null
-
-  if (songPrefix) {
-    content = (
-      <SongPage filesObj={filesObj} path={path} songPrefix={songPrefix} />
-    )
-  } else {
-    let pathLinks = []
-    if (path !== '/') {
-      const pathParts = path
-        .substring(1)
-        .split('/')
-        .filter((e) => !!e)
-      let pathAccum = ''
-      let newAccum = ''
-      for (const pathPart of pathParts) {
-        pathLinks.push(<span key={`s${pathPart}`}>/</span>)
-        newAccum = `${pathAccum}/${pathPart}`
-        pathLinks.push(
-          <em key={`e${pathPart}`}>
-            <Link href={newAccum}>{pathPart}</Link>
-          </em>
-        )
-        pathAccum = newAccum
-      }
+  let pathLinks = []
+  if (path !== '/') {
+    const pathParts = path
+      .substring(1)
+      .split('/')
+      .filter((e) => !!e)
+    let pathAccum = ''
+    let newAccum = ''
+    for (const pathPart of pathParts) {
+      pathLinks.push(<span className="ml-2 mr-2" key={`s${pathPart}`}>/</span>)
+      newAccum = `${pathAccum}/${pathPart}`
+      pathLinks.push(
+        <span className="" key={`e${pathPart}`}>
+          <Link href={newAccum}>{pathPart}</Link>
+        </span>
+      )
+      pathAccum = newAccum
     }
-    let filesObjKeys = Object.keys(filesObj)
-    if (dirMeta.tracks) {
-      filesObjKeys = []
-      for (const t of dirMeta.tracks) {
-        if (filesObj[t.prefix]) {
-          filesObjKeys.push(t.prefix)
-          filesObj[t.prefix].title = t.title
-          //console.info(`Pushed prefix ${t.prefix}.`)
-        } else {
-          console.error(`Invalid track prefix [${t.prefix}]. Skipping.`)
-        }
-      }
-    }
-    content = (
-      <>
-        <h1>
-          <Link href="/">MUSICS</Link>
-          {pathLinks}
-        </h1>
-        {dirMeta.cover && <div className="cover outerCover"><img alt={dirMeta.title || dirMeta.cover} src={join(base, dirMeta.cover)} /></div>}
-        {dirMeta.title && <h2 className="">{dirMeta.title}</h2>}
-        {dirMeta.description && <p className="">{dirMeta.description}</p>}
-        {
-          filesObjKeys.map((key, idx) => {
-            //console.log({ path, key })
-            return (
-              <div key={key} className="">
-                <SongRow
-                  audioRefs={audioRefs}
-                  activeKey={activeKey}
-                  nextKey={idx < filesObjKeys.length - 1 ? filesObjKeys[idx + 1] : null}
-                  setActiveKey={setActiveKey}
-                  myKey={key}
-                  showCover={!dirMeta.cover}
-                  fileObj={filesObj[key]}
-                  path={path}
-                />
-              </div>
-            )
-          })
-        }
-      </>
-    )
   }
 
-  if (path && path.length > 1) {
-    //dirList.unshift('..');
-  }
+  console.log({ dirList })
 
   const dirLinks = (dirList || []).map((dir: string, i: number) => {
     return (
       <div key={i.toString()} className="dir">
         <Link href={join(path, dir)}>
-          {dir === '..' ? '👆 Parent Directory' : dir}&nbsp;/
+          /&nbsp;{dir}
         </Link>
       </div>
     )
   })
   return (
     <>
-      <div className="outer">
-        <div className="dirsContainer">{dirLinks}</div>
-        <div className={`filesContainer ${dirMeta.cover && "albumPage"}`}>{content}</div>
-        <div className="rightPad" />
+      <div className="outer max-w-4xl m-auto">
+        <div className="m-8">
+          <Header pathLinks={pathLinks} />
+          {songPrefix ? (
+            <SongPage dirLinks={dirLinks} filesObj={filesObj} path={path} songPrefix={songPrefix} />
+          ) : (
+            <DirListing dirLinks={dirLinks} path={path} dirMeta={dirMeta}
+              filesObj={filesObj} base={base} audioRefs={audioRefs} />
+          )}
+        </div>
       </div>
     </>
   )
