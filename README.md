@@ -20,15 +20,21 @@ First, edit the `docker-compose.yml` file and map the `musics` volume to where
 your music directory lives. The checked-in example in the `main` branch is what
 I use to connect to an NFS volume on my network.
 
-Then, run:
+First, run:
 
 ```bash
-make prod
+make
 ```
 
-This will build and run the container with your music directory mounted read-only.
+This will launch a script to configure your music source directory. You can
+choose between a local path and NFS. If you're using NFS but via /etc/fstab,
+then configure `musics` to use NFS, since in my experience the container
+comes up before the NFS mounts are taken care of.
 
-Open [http://localhost:3141](http://localhost:3141) with your browser to see the result.
+The script will write out `docker-compose.yml` and `nginx.conf` files then it
+will start the server in production mode.
+
+Open [http://localhost:3141](http://localhost:3141) with your browser to see the result. (or use a different port number if you have configured something else).
 
 ## `album.yml` Files
 
@@ -54,13 +60,15 @@ tracks:
 This example shows how to override the `title` displayed on the page, the
 filename of a `cover` image to display at the top of the page, as well as a list
 of `tracks` in the order you prefer, with a custom title to display for each
-track.
+track. Instead of listing individual tracks, you can specify an optional `sort`
+property, with values of `newst`, `oldest`, or `alpha`.
 
 The `album.yml` file may contain some or all of the above customizations, so
 this is a perfectly valid file too:
 
 ```yaml
 title: On The Scene
+sort: newest
 ```
 
 ## Development

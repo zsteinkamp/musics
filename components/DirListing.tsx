@@ -46,6 +46,7 @@ const DirListing = ({
     filesObjKeys = []
     for (const t of dirMeta.tracks) {
       if (filesObj[t.prefix]) {
+        filesObj[t.prefix].title = t.title
         filesObjKeys.push(t.prefix)
       } else {
         console.error(`Invalid track prefix [${t.prefix}]. Skipping.`)
@@ -53,9 +54,9 @@ const DirListing = ({
     }
   }
   return (
-    <div className={className}>
-      {dirMeta.cover && <div className="cover">
-        <img alt={dirMeta.title || dirMeta.cover} src={join(base, dirMeta.cover)} />
+    <div className={`${className}`}>
+      {dirMeta.cover && <div className="">
+        <img className="max-h-[40rem] m-auto" alt={dirMeta.title || dirMeta.cover} src={join(base, dirMeta.cover)} />
       </div>
       }
       {dirMeta.title && <h1 className="my-4">{dirMeta.title}</h1>}

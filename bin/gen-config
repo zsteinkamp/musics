@@ -130,8 +130,8 @@ http {
   access_log /var/log/nginx/access.log main_ext;
 
   server {
-    listen ${MUSICS_WEB_PORT};
-    listen [::]:${MUSICS_WEB_PORT};
+    listen 3141;
+    listen [::]:3141;
 
     location ~ /musics/(.+) {
       root /musics;

@@ -21,6 +21,7 @@ export type FileVersionMetaType = {
 
 export type FileMetaType = {
   file: string
+  title?: string
   mtime: number
   coverPath?: string
   children?: FileVersionMetaType[]
