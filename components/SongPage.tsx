@@ -74,7 +74,7 @@ const SongPage = ({
             autoPlay={true}
             src={`/api/musics${parentPath + '/' + selFile.file}`}
           />
-          <p className="text-center mt-2">{(path + selFile.file).substring(1)}</p>
+          <p className="text-center mt-2">{selFile.file}</p>
           <div className="mt-8">
             {filesObj[songPrefix].children.map((f: Record<string, any>, i: number) => {
               return (

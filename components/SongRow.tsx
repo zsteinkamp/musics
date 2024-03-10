@@ -72,7 +72,7 @@ const SongRow = ({
 
   return (
     <div key={myKey} className='grid sm:grid-cols-[6.5rem_1fr] gap-8'>
-      <div className="hidden sm:block mb-8 w-[6.5rem]">{
+      <div className="hidden sm:block mb-8 w-[5.75rem]">{
         fileObj.coverPath ? (
           <div>
             <Link href={myKey}><img className="rounded-md" src={fileObj.coverPath} /></Link>

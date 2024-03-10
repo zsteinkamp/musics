@@ -40,6 +40,8 @@ export async function getServerSideProps(context: any) {
 
   //console.log({ fileCmd })
 
+  let nameArg = ''
+
   if (!fs.existsSync(base)) {
     //console.log({ dir: 'A FILE' })
     // this is a file
@@ -48,12 +50,14 @@ export async function getServerSideProps(context: any) {
     if (matches && matches[1]) {
       songPrefix = matches[1]
     }
-    // fileCmd will give the versions of the given songPrefix, sorted by descending date
-    fileCmd = `find "${base}" -name '${songPrefix}*' -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3)$' | cut -d ' ' -f 2-`
+    nameArg = `-name '${songPrefix}*'`
     //console.log({ after: true, base, root, path, songPrefix })
     //} else {
     //console.log({ dir: 'A DIRECTORY!' })
   }
+
+  // fileCmd will give the versions of the given songPrefix, sorted by descending date
+  fileCmd = `find "${base}" ${nameArg} -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3)$' | cut -d ' ' -f 2-`
 
   //console.log({ base, path, songPrefix, fileCmd });
   // run the fileCmd and get the output (newline separated)
@@ -77,9 +81,13 @@ export async function getServerSideProps(context: any) {
         bareFname.length - matches[0].length
       )
       const mtime = fs.statSync(f).mtime.getTime()
-      let coverPath: string | null = join(base, prefix) + '.jpg'
-      if (!fs.existsSync(coverPath)) {
-        coverPath = null
+      let coverPath: string | null = null
+      for (const fname of [prefix + '.jpg', 'album.jpg', 'cover.jpg']) {
+        const candidatePath = join(base, fname)
+        if (fs.existsSync(candidatePath)) {
+          coverPath = candidatePath
+          break
+        }
       }
 
       if (!filesObj[prefix]) {
@@ -115,8 +123,12 @@ export async function getServerSideProps(context: any) {
     //console.log('dirs', { dirs, base });
 
     let albumYMLFilename = join(base, 'album.yml')
+    let albumJPGFilename = join(base, 'album.jpg')
     if (fs.existsSync(albumYMLFilename)) {
       dirMeta = yaml.load(fs.readFileSync(albumYMLFilename).toString()) as Record<string, any>
+    }
+    if (!dirMeta.cover && fs.existsSync(albumJPGFilename)) {
+      dirMeta.cover = albumJPGFilename
     }
   }
 
