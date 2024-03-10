@@ -16,10 +16,11 @@ const SongPage = ({
   path,
   className = "",
 }: SongPageProps): JSX.Element | null => {
-  //console.log({ filesObj, songPrefix, path })
-
-  const parentPath = path.replace(/\/(.+)$/, "/")
+  const pathParts = path.split("/")
+  const parentPath = pathParts.slice(0, pathParts.length - 2).join("/")
   const fileObj = filesObj[songPrefix]
+
+  //console.log({ fileObj, songPrefix, path, parentPath })
 
   if (fileObj) {
 
@@ -71,7 +72,7 @@ const SongPage = ({
             className="w-full"
             controls
             autoPlay={true}
-            src={`/api/musics${parentPath + selFile.file}`}
+            src={`/api/musics${parentPath + '/' + selFile.file}`}
           />
           <p className="text-center mt-2">{(path + selFile.file).substring(1)}</p>
           <div className="mt-8">

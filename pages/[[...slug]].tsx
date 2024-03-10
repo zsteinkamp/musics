@@ -38,6 +38,8 @@ export async function getServerSideProps(context: any) {
   // get audio files in the current directory (path = directory is the base case)
   let fileCmd = `find "${base}" -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3)$' | cut -d ' ' -f 2-`
 
+  //console.log({ fileCmd })
+
   if (!fs.existsSync(base)) {
     //console.log({ dir: 'A FILE' })
     // this is a file
@@ -67,7 +69,7 @@ export async function getServerSideProps(context: any) {
       continue
     }
     const bareFname = f.substring(base.length)
-    const matches = f.match(/-\d+\.(aif|wav|mp3)$/)
+    const matches = f.match(/(-\d+)?\.(aif|wav|mp3)$/)
     //console.log({ base, matches, bareFname })
     if (matches && matches.index) {
       const prefix = bareFname.substring(
@@ -147,9 +149,9 @@ type HomeProps = {
 }
 
 export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }: HomeProps) {
-  //console.log({ base, path, songPrefix, dirs });
-
   const audioRefs = useRef({})
+
+  //console.log({ base, path, songPrefix, dirs, filesObj });
 
   return (
     <div className="outer max-w-4xl m-auto p-8">
