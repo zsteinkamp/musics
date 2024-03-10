@@ -9,7 +9,7 @@ services:
     stop_signal: SIGKILL
     volumes:
       - ../nginx.conf:/etc/nginx/nginx.conf:ro
-      - /mnt/shared/mp3:/musics:ro
+      - /mnt/shared/musics:/musics:ro
   web:
     build:
       context: ..
@@ -17,6 +17,6 @@ services:
     volumes:
       - ..:/app
       - app_node_modules:/app/node_modules
-      - /mnt/shared/mp3:/musics:ro
+      - /mnt/shared/musics:/musics:ro
 volumes:
   app_node_modules:

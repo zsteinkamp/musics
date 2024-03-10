@@ -2,10 +2,12 @@ import { FilesObj } from '@/pages/[[...slug]]';
 import { join } from 'path'
 import SongRow from './SongRow';
 import { MutableRefObject, useState } from 'react'
+import type { PathMetaType } from '@/lib/PathMeta';
+import type { FileMetaType } from '@/pages/[[...slug]]'
 
 type DirListingProps = {
   path: string
-  dirMeta: Record<string, any>
+  dirMeta: PathMetaType
   filesObj: FilesObj
   base: string
   audioRefs: MutableRefObject<Record<string, any>>
@@ -22,16 +24,24 @@ const DirListing = ({
 }: DirListingProps): JSX.Element | null => {
 
   const [activeKey, setActiveKey] = useState(null)
+  const filesArr = Object.values(filesObj)
 
-  let filesObjKeys = Object.keys(filesObj)
+  if (dirMeta.sort === 'newest') {
+    filesArr.sort((a: FileMetaType, b: FileMetaType) => {
+      return a.mtime - b.mtime
+    })
+  } else {
+    filesArr.sort((a: FileMetaType, b: FileMetaType) => {
+      return a.file > b.file ? 1 : -1
+    })
+  }
+  let filesObjKeys = filesArr.map((e) => e.file.replace(/(-\d+)?.(wav|aif|mp3|m4a)$/, ""))
 
   if (dirMeta.tracks) {
     filesObjKeys = []
     for (const t of dirMeta.tracks) {
-      if (filesObj[t.prefix]) {
-        filesObjKeys.push(t.prefix)
-        filesObj[t.prefix].title = t.title
-        //console.info(`Pushed prefix ${t.prefix}.`)
+      if (filesObj[t]) {
+        filesObjKeys.push(t)
       } else {
         console.error(`Invalid track prefix [${t.prefix}]. Skipping.`)
       }

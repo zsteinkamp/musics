@@ -4,6 +4,7 @@ import moment from 'moment'
 import Link from 'next/link'
 import { MutableRefObject, useRef } from 'react'
 import Timestamp from './Timestamp';
+import GenericRow from './GenericRow';
 
 const ftime = (epochTimeMs: number): string => {
   return moment(epochTimeMs).format("YYYY-MM-DD HH:mm");
@@ -71,47 +72,48 @@ const SongRow = ({
   //console.info({ fileObj, title })
 
   return (
-    <div key={myKey} className='grid sm:grid-cols-[6.5rem_1fr] gap-8'>
-      <div className="hidden sm:block mb-8 w-[5.75rem]">{
-        fileObj.coverPath ? (
-          <div>
-            <Link href={myKey}><img className="rounded-md" src={fileObj.coverPath} /></Link>
-          </div>
-        ) : (
-          <Link href={myKey} className="block w-full aspect-square
+    <GenericRow key={myKey}
+      cover={fileObj.coverPath ? (
+        <div>
+          <Link href={myKey}><img className="rounded-md" src={fileObj.coverPath} /></Link>
+        </div>
+      ) : (
+        <Link href={myKey} className="block w-full aspect-square
              rounded-md
             sm:bg-shadebg-light
             sm:dark:bg-shadebg-dark 
           ">
-            &nbsp;
-          </Link>
-        )
-      }</div>
-      <div className="mb-8">
-        <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr]">
-          <h2 className="leading-normal truncate">
-            <Link href={`${path}${myKey}`}>{title}</Link>
-          </h2>
-          <div className="hidden sm:block truncate ml-4 mr-4">
-            <p className="truncate text-right leading-4">{fileObj.file}</p>
-            <Timestamp timestamp={fileObj.mtime} className="
+          &nbsp;
+        </Link>
+      )
+      }
+      body={(
+        <div className="">
+          <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr]">
+            <h2 className="leading-normal truncate">
+              <Link href={`${path}${myKey}`}>{title}</Link>
+            </h2>
+            <div className="hidden sm:block truncate ml-4 mr-4">
+              <p className="truncate text-right leading-4">{fileObj.file}</p>
+              <Timestamp timestamp={fileObj.mtime} className="
               truncate text-right
             text-date-light dark:text-date-dark
               " />
+            </div>
+          </div>
+          <div>
+            <audio
+              preload="none"
+              className="w-full"
+              ref={audioRef}
+              controls
+              onPlay={handlePlay} onPause={handlePause} onEnded={handleEnd}
+              src={`/api/musics${path + fileObj.file}`}
+            />
           </div>
         </div>
-        <div>
-          <audio
-            preload="none"
-            className="w-full"
-            ref={audioRef}
-            controls
-            onPlay={handlePlay} onPause={handlePause} onEnded={handleEnd}
-            src={`/api/musics${path + fileObj.file}`}
-          />
-        </div>
-      </div>
-    </div >
+      )}
+    />
   );
   //      {fileObj.children && (
   //        <div className="children">

@@ -1,7 +1,5 @@
-import Link from 'next/link'
 import { join } from 'path'
-import fs from 'fs'
-import * as yaml from 'js-yaml'
+import { existsSync, statSync } from 'fs'
 import { promisify } from 'util'
 import { exec } from 'child_process'
 import { useRef } from 'react'
@@ -12,10 +10,22 @@ import Footer from '@/components/Footer'
 import DirListing from '@/components/DirListing'
 import DirLinks from '@/components/DirLinks'
 import AboutPage from '@/components/AboutPage'
+import { PathMetaType, metaForPath } from '@/lib/PathMeta'
 
 const pExec = promisify(exec)
 
-export type FilesObj = Record<string, any>
+export type FileVersionMetaType = {
+  file: string
+  mtime: number
+}
+
+export type FileMetaType = {
+  file: string
+  mtime: number
+  coverPath?: string
+  children?: FileVersionMetaType[]
+}
+export type FilesObj = Record<string, FileMetaType>
 
 export async function getServerSideProps(context: any) {
   //console.log({ params: context.params })
@@ -36,13 +46,13 @@ export async function getServerSideProps(context: any) {
 
   //console.log({ base, root, path })
   // get audio files in the current directory (path = directory is the base case)
-  let fileCmd = `find "${base}" -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3)$' | cut -d ' ' -f 2-`
+  let fileCmd = `find "${base}" -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3|m4a)$' | cut -d ' ' -f 2-`
 
   //console.log({ fileCmd })
 
   let nameArg = ''
 
-  if (!fs.existsSync(base)) {
+  if (!existsSync(base)) {
     //console.log({ dir: 'A FILE' })
     // this is a file
     base = base.replace(/[^/]+\/$/, '')
@@ -57,7 +67,7 @@ export async function getServerSideProps(context: any) {
   }
 
   // fileCmd will give the versions of the given songPrefix, sorted by descending date
-  fileCmd = `find "${base}" ${nameArg} -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3)$' | cut -d ' ' -f 2-`
+  fileCmd = `find "${base}" ${nameArg} -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3|m4a)$' | cut -d ' ' -f 2-`
 
   //console.log({ base, path, songPrefix, fileCmd });
   // run the fileCmd and get the output (newline separated)
@@ -73,18 +83,18 @@ export async function getServerSideProps(context: any) {
       continue
     }
     const bareFname = f.substring(base.length)
-    const matches = f.match(/(-\d+)?\.(aif|wav|mp3)$/)
+    const matches = f.match(/(-\d+)?\.(aif|wav|mp3|m4a)$/)
     //console.log({ base, matches, bareFname })
     if (matches && matches.index) {
       const prefix = bareFname.substring(
         0,
         bareFname.length - matches[0].length
       )
-      const mtime = fs.statSync(f).mtime.getTime()
-      let coverPath: string | null = null
+      const mtime = statSync(f).mtime.getTime()
+      let coverPath: string = ""
       for (const fname of [prefix + '.jpg', 'album.jpg', 'cover.jpg']) {
         const candidatePath = join(base, fname)
-        if (fs.existsSync(candidatePath)) {
+        if (existsSync(candidatePath)) {
           coverPath = candidatePath
           break
         }
@@ -100,7 +110,7 @@ export async function getServerSideProps(context: any) {
         }
       }
       // push song version onto children[]
-      filesObj[prefix].children.push({
+      filesObj[prefix]?.children?.push({
         file: bareFname,
         mtime,
       })
@@ -108,7 +118,8 @@ export async function getServerSideProps(context: any) {
   }
 
   let dirs: string[] = []
-  let dirMeta: Record<string, any> = {}
+  let dirMeta: PathMetaType = {}
+  const subdirMeta: PathMetaType = {}
 
   if (!songPrefix) {
     // looking at a directory, so look for subdirectories
@@ -120,26 +131,21 @@ export async function getServerSideProps(context: any) {
         return f.substring(base.length)
       })
       .filter((e) => e !== '' && e !== null && e !== undefined)
-    //console.log('dirs', { dirs, base });
 
-    let albumYMLFilename = join(base, 'album.yml')
-    let albumJPGFilename = join(base, 'album.jpg')
-    if (fs.existsSync(albumYMLFilename)) {
-      dirMeta = yaml.load(fs.readFileSync(albumYMLFilename).toString()) as Record<string, any>
-    }
-    if (!dirMeta.cover && fs.existsSync(albumJPGFilename)) {
-      dirMeta.cover = albumJPGFilename
+    dirMeta = metaForPath(base)
+    for (const dir of dirs) {
+      subdirMeta[dir] = metaForPath(join(base, dir))
     }
   }
 
-  //console.log({ path });
+  //console.log({ path, dirMeta });
 
   return {
     props: {
       songPrefix,
       filesObj,
       base,
-      dirs, path, dirMeta
+      dirs, path, dirMeta, subdirMeta
     }, // will be passed to the page component as props
   }
 }
@@ -157,10 +163,11 @@ type HomeProps = {
   base: string
   dirs: string[]
   path: string
-  dirMeta: Record<string, any>
+  dirMeta: PathMetaType
+  subdirMeta: Record<string, PathMetaType>
 }
 
-export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }: HomeProps) {
+export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta, subdirMeta }: HomeProps) {
   const audioRefs = useRef({})
 
   //console.log({ base, path, songPrefix, dirs, filesObj });
@@ -168,12 +175,9 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
   return (
     <div className="outer max-w-4xl m-auto p-8">
       <Header path={path} className="" />
-      <div className="md:grid md:grid-cols-[1fr_3fr] md:gap-8">
-        <DirLinks dirs={dirs} path={path} className={`
-          md:max-w-[12rem] ${dirs.length && 'mb-8 py-4'} px-6
-          md:bg-gradient-to-l rounded-md
-          md:from-shadebg-light md:to-pagebg-light
-          md:dark:to-pagebg-dark md:dark:from-shadebg-dark
+      <div className="">
+        <DirLinks dirs={dirs} subdirMeta={subdirMeta} path={path} className={`
+          ${dirs.length && 'mb-8 py-4'} px-6 md:px-0
           `} />
         {path.startsWith('/about') ? (<AboutPage />) :
           songPrefix ? (
