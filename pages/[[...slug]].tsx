@@ -4,7 +4,7 @@ import fs from 'fs'
 import * as yaml from 'js-yaml'
 import { promisify } from 'util'
 import { exec } from 'child_process'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 
 import SongPage from '@/components/SongPage'
 import Header from '@/components/Header'
@@ -178,27 +178,19 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
     }
   }
 
-  console.log({ dirList })
+  //console.log({ dirList })
 
-  const dirLinks = (dirList || []).map((dir: string, i: number) => {
-    return (
-      <div key={i.toString()} className="py-2">
-        <Link className="" href={join(path, dir)}>
-          /&nbsp;{dir}
-        </Link>
-      </div>
-    )
-  })
   return (
     <div className="outer max-w-4xl m-auto p-8">
       <Header pathLinks={pathLinks} className="" />
       <div className="md:grid md:grid-cols-[1fr_3fr] md:gap-8">
-        <DirLinks dirLinks={dirLinks} className="max-w-[12rem] mb-8 py-4 px-6
+        <DirLinks dirList={dirList} path={path} className="
+          md:max-w-[12rem] mb-8 py-4 px-6
           md:bg-gradient-to-l rounded-md
           md:from-shadebg-light md:to-pagebg-light
           md:dark:to-pagebg-dark md:dark:from-shadebg-dark
           " />
-        {path === '/about/' ? (<AboutPage />) :
+        {path.startsWith('/about') ? (<AboutPage />) :
           songPrefix ? (
             <SongPage filesObj={filesObj} path={path} songPrefix={songPrefix} />
           ) : (

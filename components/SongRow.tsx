@@ -92,7 +92,7 @@ const SongRow = ({
           <h2 className="leading-normal truncate">
             <Link href={`${path}${myKey}`}>{title}</Link>
           </h2>
-          <div className="truncate ml-4">
+          <div className="hidden sm:block truncate ml-4">
             <p className="truncate text-right">{fileObj.file}</p>
             <Timestamp timestamp={fileObj.mtime} className="
               truncate text-right
