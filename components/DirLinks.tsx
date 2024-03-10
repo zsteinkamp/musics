@@ -11,7 +11,7 @@ type DirLinksProps = {
 };
 
 const getDirLinks = ({ dirs, path, subdirMeta }: DirLinksProps): JSX.Element[] => {
-  console.log({ dirs, path, subdirMeta })
+  //console.log({ dirs, path, subdirMeta })
   return dirs.map((dir: string, i: number) => {
     const dirMeta = subdirMeta[dir]
     return (

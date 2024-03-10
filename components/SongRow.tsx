@@ -69,7 +69,7 @@ const SongRow = ({
   };
 
   const title = fileObj.title || myKey
-  console.info({ fileObj, title })
+  //console.info({ fileObj, title })
 
   return (
     <GenericRow key={myKey}
