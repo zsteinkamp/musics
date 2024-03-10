@@ -10,7 +10,8 @@
         "csstools.postcss",
         "rvest.vs-code-prettier-eslint",
         "esbenp.prettier-vscode",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.makefile-tools"
       ]
     }
   }

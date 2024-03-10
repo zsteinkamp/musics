@@ -16,5 +16,13 @@ devlogs: ## Tail logs in development environment
 devdown: ## Stop/rm development environment
 	cd musics_dev && docker compose down
 
-prod: ## Build and run production environment
+prod: config ## Build and run production environment
 	docker compose build && docker compose up -d --force-recreate && docker compose logs -f
+
+config: docker-compose.yml nginx.conf ## Run setup script to generate docker-compose.yml and nginx.conf files
+
+docker-compose.yml nginx.conf:
+  bin/gen-config
+
+clean: config ## Remove docker-compose.yml and nginx.conf files
+  mv docker-compose.yml docker-compose.yml.BAK && mv nginx.conf nginx.conf.BAK
