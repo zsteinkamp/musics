@@ -8,7 +8,7 @@ services:
       - '3142:3141'
     stop_signal: SIGKILL
     volumes:
-      - ../nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - /mnt/shared/musics:/musics:ro
   web:
     build:
