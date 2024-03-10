@@ -89,7 +89,7 @@ const SongRow = ({
       }</div>
       <div className="mb-8">
         <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr]">
-          <h2 className="font-header text-headertext-light dark:text-headertext-dark text-3xl leading-normal truncate">
+          <h2 className="leading-normal truncate">
             <Link href={`${path}${myKey}`}>{title}</Link>
           </h2>
           <div className="truncate ml-4">

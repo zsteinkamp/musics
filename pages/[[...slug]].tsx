@@ -8,8 +8,10 @@ import { useRef, useState } from 'react'
 
 import SongPage from '@/components/SongPage'
 import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 import DirListing from '@/components/DirListing'
 import DirLinks from '@/components/DirLinks'
+import AboutPage from '@/components/AboutPage'
 
 const pExec = promisify(exec)
 
@@ -123,9 +125,7 @@ export async function getServerSideProps(context: any) {
       songPrefix,
       filesObj,
       base,
-      dirs,
-      path,
-      dirMeta
+      dirs, path, dirMeta
     }, // will be passed to the page component as props
   }
 }
@@ -182,7 +182,7 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
 
   const dirLinks = (dirList || []).map((dir: string, i: number) => {
     return (
-      <div key={i.toString()} className="">
+      <div key={i.toString()} className="py-2">
         <Link className="" href={join(path, dir)}>
           /&nbsp;{dir}
         </Link>
@@ -198,13 +198,15 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta }
           md:from-shadebg-light md:to-pagebg-light
           md:dark:to-pagebg-dark md:dark:from-shadebg-dark
           " />
-        {songPrefix ? (
-          <SongPage filesObj={filesObj} path={path} songPrefix={songPrefix} />
-        ) : (
-          <DirListing path={path} dirMeta={dirMeta}
-            filesObj={filesObj} base={base} audioRefs={audioRefs} />
-        )}
+        {path === '/about/' ? (<AboutPage />) :
+          songPrefix ? (
+            <SongPage filesObj={filesObj} path={path} songPrefix={songPrefix} />
+          ) : (
+            <DirListing path={path} dirMeta={dirMeta}
+              filesObj={filesObj} base={base} audioRefs={audioRefs} />
+          )}
       </div>
+      <Footer />
     </div>
   )
 }

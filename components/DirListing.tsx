@@ -43,10 +43,7 @@ const DirListing = ({
         <img alt={dirMeta.title || dirMeta.cover} src={join(base, dirMeta.cover)} />
       </div>
       }
-      {dirMeta.title && <h2 className="
-      text-headertext-light dark:text-headertext-dark
-        font-header text-5xl my-4 font-bold
-      ">{dirMeta.title}</h2>}
+      {dirMeta.title && <h1 className="my-4">{dirMeta.title}</h1>}
       {dirMeta.description && <p className="mb-8">{dirMeta.description}</p>}
       {
         filesObjKeys.map((key, idx) => {

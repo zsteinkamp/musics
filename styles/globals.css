@@ -12,3 +12,31 @@ html {
 html.dark {
   color-scheme: dark;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-header;
+}
+h1 {
+  @apply text-4xl;
+}
+h2 {
+  @apply text-2xl;
+}
+h3 {
+  @apply text-xl;
+}
+h4 {
+}
+h5 {
+  @apply text-sm;
+}
+
+a:visited,
+a {
+  @apply text-link-base-light hover:text-link-hover-light dark:text-link-base-dark hover:dark:text-link-hover-dark;
+}

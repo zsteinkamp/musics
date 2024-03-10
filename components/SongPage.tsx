@@ -18,27 +18,29 @@ const SongPage = ({
 }: SongPageProps): JSX.Element | null => {
   //console.log({ filesObj, songPrefix, path })
 
+  const parentPath = path.replace(/\/(.+)$/, "/")
   const fileObj = filesObj[songPrefix]
 
-  const parentPath = path.replace(/\/(.+)$/, "/")
+  if (fileObj) {
 
-  let pathLinks = []
-  const pathParts = path.split('/').filter((e) => !!e)
-  //console.log({ pathparts: pathParts.join(',') })
-  let pathAccum = ''
-  for (const pathPart of pathParts) {
-    pathLinks.push(<span key={`s${pathPart}`}>/</span>)
-    const newAccum = `${pathAccum}/${pathPart}`
-    pathLinks.push(
-      <em key={`l${pathPart}`}><Link href={newAccum}>{pathPart}</Link></em>
-    )
-    pathAccum = newAccum
-    //console.log({ pathAccum })
+    let pathLinks = []
+    const pathParts = path.split('/').filter((e) => !!e)
+    //console.log({ pathparts: pathParts.join(',') })
+    let pathAccum = ''
+    for (const pathPart of pathParts) {
+      pathLinks.push(<span key={`s${pathPart}`}>/</span>)
+      const newAccum = `${pathAccum}/${pathPart}`
+      pathLinks.push(
+        <em key={`l${pathPart}`}><Link href={newAccum}>{pathPart}</Link></em>
+      )
+      pathAccum = newAccum
+      //console.log({ pathAccum })
+    }
+
+    //const fullPrefix = join(path, songPrefix)
+
   }
-
-  //const fullPrefix = join(path, songPrefix)
-
-  const [selFile, setSelFile] = useState(filesObj[songPrefix].children[0] as Record<string, any>)
+  const [selFile, setSelFile] = useState(fileObj && fileObj.children[0] as Record<string, any>)
 
   //console.log({ fileObj, filesObj: filesObj })
 
@@ -60,11 +62,7 @@ const SongPage = ({
           <div className="">
             <img className="w-full object-cover p-4 shadow-xl" src={fileObj.coverPath} />
           </div>)}
-        <h1 className="
-          text-6xl font-bold
-          text-headertext-light dark:text-headertext-dark
-          font-header mt-8 mb-4 text-center truncate
-          ">
+        <h1 className="mt-8 mb-4 text-center truncate">
           {title}
         </h1>
         <div className="">

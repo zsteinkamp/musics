@@ -37,6 +37,10 @@ module.exports = {
             dark: linkbase['600'],
           },
         },
+        link: {
+          base: { dark: linkbase['700'], light: linkbase['700'] },
+          hover: { dark: linkbase['300'], light: linkbase['800'] },
+        },
       },
     },
   },
