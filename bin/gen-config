@@ -58,10 +58,9 @@ services:
   nginx:
     image: nginx:1
     depends_on:
-      - frontend
-      - api
+      - web
     ports:
-      - '${MUSICS_WEB_PORT}:3141'
+      - "${MUSICS_WEB_PORT}:3141"
     restart: unless-stopped
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
@@ -69,11 +68,11 @@ EOF
 if [ "nfs" == "$MUSICS_MOUNT_TYPE" ]
 then
   cat << EOF >> docker-compose.yml
-    - prod_musics:/musics:ro
+      - musics:/musics:ro
 EOF
 else
   cat << EOF >> docker-compose.yml
-    - ${MUSICS_ORIG_DIR}:/musics:ro
+      - ${MUSICS_ORIG_DIR}:/musics:ro
 EOF
 fi
 cat << EOF >> docker-compose.yml
@@ -88,22 +87,23 @@ EOF
 if [ "nfs" == "$MUSICS_MOUNT_TYPE" ]
 then
   cat << EOF >> docker-compose.yml
-    - prod_musics:/musics:ro
+      - musics:/musics:ro
 EOF
 else
   cat << EOF >> docker-compose.yml
-    - ${MUSICS_ORIG_DIR}:/musics:ro
+      - ${MUSICS_ORIG_DIR}:/musics:ro
 EOF
 fi
 if [ "nfs" == "$MUSICS_MOUNT_TYPE" ]
+then
   cat << EOF >> docker-compose.yml
 volumes:
-  prod_musics:
+  musics:
     driver: local
     driver_opts:
-      type: 'nfs4'
-      o: 'addr=${MUSICS_NFS_HOST},vers=4,soft,nolock'
-      device: ':${MUSICS_NFS_PATH}'
+      type: "nfs4"
+      o: "addr=${MUSICS_NFS_HOST},vers=4,soft,nolock"
+      device: ":${MUSICS_NFS_PATH}"
 EOF
 fi
 
@@ -129,14 +129,22 @@ http {
                       'cs=\$upstream_cache_status';
   access_log /var/log/nginx/access.log main_ext;
 
-  # NGINX Proxy Cache - obeys standard cache headers
-  proxy_cache_path /tmp/nginx  levels=1:2  keys_zone=STATIC:10m inactive=24h  max_size=10g;
-
   server {
     listen ${MUSICS_WEB_PORT};
     listen [::]:${MUSICS_WEB_PORT};
 
-    include "nginx-musics-common.conf";
+    location ~ /musics/(.+) {
+      root /musics;
+      try_files /\$1 =404;
+    }
+    location / {
+      proxy_pass http://web:3000;
+      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+      proxy_set_header Host \$host;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade \$http_upgrade;
+      proxy_set_header Connection "upgrade";
+    }
   }
 }
 EOF

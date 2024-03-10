@@ -22,7 +22,7 @@ prod: config ## Build and run production environment
 config: docker-compose.yml nginx.conf ## Run setup script to generate docker-compose.yml and nginx.conf files
 
 docker-compose.yml nginx.conf:
-  bin/gen-config
+	bin/gen-config
 
 clean: config ## Remove docker-compose.yml and nginx.conf files
-  mv docker-compose.yml docker-compose.yml.BAK && mv nginx.conf nginx.conf.BAK
+	mv docker-compose.yml docker-compose.yml.BAK && mv nginx.conf nginx.conf.BAK
