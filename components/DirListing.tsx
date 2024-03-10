@@ -40,8 +40,8 @@ const DirListing = ({
   if (dirMeta.tracks) {
     filesObjKeys = []
     for (const t of dirMeta.tracks) {
-      if (filesObj[t]) {
-        filesObjKeys.push(t)
+      if (filesObj[t.prefix]) {
+        filesObjKeys.push(t.prefix)
       } else {
         console.error(`Invalid track prefix [${t.prefix}]. Skipping.`)
       }
@@ -55,12 +55,13 @@ const DirListing = ({
       }
       {dirMeta.title && <h1 className="my-4">{dirMeta.title}</h1>}
       {dirMeta.description && <p className="mb-8">{dirMeta.description}</p>}
-      {
-        filesObjKeys.map((key, idx) => {
-          //console.log({ path, key })
-          return (
-            <div key={key} className="">
+      <div className="grid grod-cols-1 gap-4">
+        {
+          filesObjKeys.map((key, idx) => {
+            //console.log({ path, key })
+            return (
               <SongRow
+                key={key}
                 audioRefs={audioRefs}
                 activeKey={activeKey}
                 nextKey={idx < filesObjKeys.length - 1 ? filesObjKeys[idx + 1] : null}
@@ -70,10 +71,10 @@ const DirListing = ({
                 fileObj={filesObj[key]}
                 path={path}
               />
-            </div>
-          )
-        })
-      }
+            )
+          })
+        }
+      </div>
     </div>
   )
 }
