@@ -75,13 +75,13 @@ const SongRow = ({
       <div className="hidden sm:block mb-8 w-[6.5rem]">{
         fileObj.coverPath ? (
           <div>
-            <Link href={myKey}><img className="" src={fileObj.coverPath} /></Link>
+            <Link href={myKey}><img className="rounded-md" src={fileObj.coverPath} /></Link>
           </div>
         ) : (
           <Link href={myKey} className="block w-full aspect-square
-            sm:bg-gradient-to-b rounded-md
-            sm:from-shadebg-light sm:to-pagebg-light
-            sm:dark:to-pagebg-dark sm:dark:from-shadebg-dark
+             rounded-md
+            sm:bg-shadebg-light
+            sm:dark:bg-shadebg-dark 
           ">
             &nbsp;
           </Link>
