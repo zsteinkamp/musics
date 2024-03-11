@@ -61,7 +61,7 @@ const SongPage = ({
       <div className={className}>
         {fileObj.coverPath && (
           <div className="">
-            <img className="max-w-[24rem] m-auto object-cover p-4 shadow-xl" src={fileObj.coverPath} />
+            <img className="max-w-[24rem] m-auto object-cover shadow-xl" src={fileObj.coverPath} />
           </div>)}
         <h1 className="mt-8 mb-4 text-center truncate">
           {title}
