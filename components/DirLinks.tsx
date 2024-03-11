@@ -33,7 +33,7 @@ const getDirLinks = ({ dirs, path, subdirMeta }: DirLinksProps): JSX.Element[] =
         body={(
           <h2 className="truncate leading-normal">
             <Link className="truncate" href={join(path, dir)}>
-              /&nbsp;{dir}
+              /{dir}
             </Link>
           </h2>
         )} />
