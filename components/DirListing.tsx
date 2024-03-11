@@ -56,10 +56,10 @@ const DirListing = ({
   return (
     <div className={`${className}`}>
       {dirMeta.cover && <div className="">
-        <img className="max-h-[40rem] m-auto" alt={dirMeta.title || dirMeta.cover} src={join(base, dirMeta.cover)} />
+        <img className="max-w-[24rem] p-4 shadow-xl m-auto mb-8" alt={dirMeta.title || dirMeta.cover} src={join(base, dirMeta.cover)} />
       </div>
       }
-      {dirMeta.title && <h1 className="my-4">{dirMeta.title}</h1>}
+      {dirMeta.title && <h1 className="mb-4">{dirMeta.title}</h1>}
       {dirMeta.description && <p className="mb-8">{dirMeta.description}</p>}
       <div className="grid grod-cols-1 gap-4">
         {
