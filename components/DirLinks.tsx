@@ -18,7 +18,7 @@ const getDirLinks = ({ dirs, path, subdirMeta }: DirLinksProps): JSX.Element[] =
       <GenericRow key={i.toString()} className="py-0"
         cover={dirMeta.cover ? (
           <div>
-            <Link href={dir}><img className="rounded-md" src={join('/musics', dir, dirMeta.cover)} /></Link>
+            <Link href={dir}><img className="rounded-md" src={join('/musics', path, dir, dirMeta.cover)} /></Link>
           </div>
         ) : (
           <Link href={dir} className="block w-full aspect-square
