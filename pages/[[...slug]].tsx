@@ -29,7 +29,7 @@ export type FileMetaType = {
 export type FilesObj = Record<string, FileMetaType>
 
 export async function getServerSideProps(context: any) {
-  //console.log({ params: context.params })
+  //console.log({ ru: context.resolvedUrl })
   let path = join(
     '/',
     (context &&
@@ -47,7 +47,7 @@ export async function getServerSideProps(context: any) {
 
   //console.log({ base, root, path })
   // get audio files in the current directory (path = directory is the base case)
-  let fileCmd = `find "${base}" -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3|m4a)$' | cut -d ' ' -f 2-`
+  //let fileCmd = `find "${base}" -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3|m4a)$' | cut -d ' ' -f 2-`
 
   //console.log({ fileCmd })
 
@@ -68,7 +68,7 @@ export async function getServerSideProps(context: any) {
   }
 
   // fileCmd will give the versions of the given songPrefix, sorted by descending date
-  fileCmd = `find "${base}" ${nameArg} -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3|m4a)$' | cut -d ' ' -f 2-`
+  const fileCmd = `find "${base}" ${nameArg} -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3|m4a)$' | cut -d ' ' -f 2-`
 
   //console.log({ base, path, songPrefix, fileCmd });
   // run the fileCmd and get the output (newline separated)

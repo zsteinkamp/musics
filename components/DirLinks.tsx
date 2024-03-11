@@ -14,14 +14,15 @@ const getDirLinks = ({ dirs, path, subdirMeta }: DirLinksProps): JSX.Element[] =
   //console.log({ dirs, path, subdirMeta })
   return dirs.map((dir: string, i: number) => {
     const dirMeta = subdirMeta[dir]
+    const dest = join(path, dir)
     return (
       <GenericRow key={i.toString()} className="py-0"
         cover={dirMeta.cover ? (
           <div>
-            <Link href={dir}><img className="rounded-md" src={join('/musics', path, dir, dirMeta.cover)} /></Link>
+            <Link href={dest}><img className="rounded-md" src={join('/musics', path, dir, dirMeta.cover)} /></Link>
           </div>
         ) : (
-          <Link href={dir} className="block w-full aspect-square
+          <Link href={dest} className="block w-full aspect-square
              rounded-md
             sm:bg-shadebg-light
             sm:dark:bg-shadebg-dark 
@@ -32,7 +33,7 @@ const getDirLinks = ({ dirs, path, subdirMeta }: DirLinksProps): JSX.Element[] =
         }
         body={(
           <h2 className="truncate leading-normal">
-            <Link className="truncate" href={join(path, dir)}>
+            <Link className="truncate" href={dest}>
               /{dir}
             </Link>
           </h2>
