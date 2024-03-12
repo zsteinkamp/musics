@@ -174,22 +174,24 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta, 
   //console.log({ base, path, songPrefix, dirs, filesObj });
 
   return (
-    <div className="outer max-w-4xl m-auto p-8">
-      <Header path={path} className="" />
-      <div className="">
-        <DirLinks dirs={dirs} subdirMeta={subdirMeta} path={path} className={`
-          px-0
-          ${dirs.length && 'mb-8 py-0'}
-          `} />
-        {path.startsWith('/about') ? (<AboutPage />) :
-          songPrefix ? (
-            <SongPage filesObj={filesObj} path={path} songPrefix={songPrefix} />
-          ) : (
-            <DirListing path={path} dirMeta={dirMeta}
-              filesObj={filesObj} base={base} audioRefs={audioRefs} />
-          )}
+    <div className="outer max-w-4xl m-auto">
+      <div className="m-8">
+        <Header path={path} className="" />
+        <div className="">
+          <DirLinks dirs={dirs} subdirMeta={subdirMeta} path={path} className={`
+            px-0
+            ${dirs.length ? 'mb-8 py-0' : ''}
+            `} />
+          {path.startsWith('/about') ? (<AboutPage />) :
+            songPrefix ? (
+              <SongPage filesObj={filesObj} path={path} songPrefix={songPrefix} />
+            ) : (
+              <DirListing path={path} dirMeta={dirMeta}
+                filesObj={filesObj} base={base} audioRefs={audioRefs} />
+            )}
+        </div>
+        <Footer />
       </div>
-      <Footer />
     </div>
   )
 }

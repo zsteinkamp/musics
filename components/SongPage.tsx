@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import Timestamp from './Timestamp'
+import CoverImage from './CoverImage';
 
 type SongPageProps = {
   filesObj: Record<string, Record<string, any>>
@@ -59,10 +60,7 @@ const SongPage = ({
         {<meta property="og:image" content={`https://musics.steinkamp.us${fileObj.coverPath}`} />}
       </Head>
       <div className={className}>
-        {fileObj.coverPath && (
-          <div className="">
-            <img className="max-w-[24rem] m-auto object-cover shadow-xl" src={fileObj.coverPath} />
-          </div>)}
+        {fileObj.coverPath && <CoverImage src={fileObj.coverPath} title={title} />}
         <h1 className="mt-8 mb-4 text-center truncate">
           {title}
         </h1>

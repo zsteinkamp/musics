@@ -7,6 +7,11 @@
 html {
   font-size: 18px;
   color-scheme: light;
+  @apply text-sm md:text-base;
+}
+
+audio {
+  @apply h-8 md:h-12;
 }
 
 html.dark {

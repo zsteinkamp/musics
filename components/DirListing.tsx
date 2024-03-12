@@ -4,6 +4,7 @@ import SongRow from './SongRow';
 import { MutableRefObject, useState } from 'react'
 import type { PathMetaType } from '@/lib/PathMeta';
 import type { FileMetaType } from '@/pages/[[...slug]]'
+import CoverImage from './CoverImage';
 
 type DirListingProps = {
   path: string
@@ -55,12 +56,10 @@ const DirListing = ({
   }
   return (
     <div className={`${className}`}>
-      {dirMeta.cover && <div className="">
-        <img className="max-w-[24rem] shadow-xl m-auto mb-8" alt={dirMeta.title || dirMeta.cover} src={join(base, dirMeta.cover)} />
-      </div>
+      {dirMeta.cover && <CoverImage title={dirMeta.title || dirMeta.cover} src={join(base, dirMeta.cover)} className="mb-8" />
       }
       {dirMeta.title && <h1 className="mb-4">{dirMeta.title}</h1>}
-      {dirMeta.description && <p className="mb-8">{dirMeta.description}</p>}
+      {dirMeta.description && <p className="text-base mb-8">{dirMeta.description}</p>}
       <div className="grid grod-cols-1 gap-4">
         {
           filesObjKeys.map((key, idx) => {
