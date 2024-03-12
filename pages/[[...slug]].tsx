@@ -177,7 +177,7 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta, 
     <div className="outer max-w-4xl m-auto">
       <div className="m-8">
         <Header path={path} className="" />
-        <div className="">
+        <div className="min-h-[75dvh]">
           <DirLinks dirs={dirs} subdirMeta={subdirMeta} path={path} className={`
             px-0
             ${dirs.length ? 'mb-8 py-0' : ''}

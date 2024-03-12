@@ -73,10 +73,11 @@ const SongPage = ({
             src={`/api/musics${parentPath + '/' + selFile.file}`}
           />
           <p className="text-center mt-2">{selFile.file}</p>
-          <div className="mt-8">
-            {filesObj[songPrefix].children.map((f: Record<string, any>, i: number) => {
-              return (
-                <label className="
+          {filesObj[songPrefix].children.length > 1 ? (
+            <div className="mt-8">
+              {filesObj[songPrefix].children.map((f: Record<string, any>, i: number) => {
+                return (
+                  <label className="
                     cursor-pointer block p-4
                     rounded-xl
                     bg-gradient-to-l
@@ -85,16 +86,17 @@ const SongPage = ({
                     has-[:checked]:dark:to-pagebg-dark
                     has-[:checked]:dark:from-shadebg-dark
                     " key={f.file}>
-                  <input type="radio" className="hidden" name="takes"
-                    value={f.file} key={f.file} checked={f === selFile}
-                    onChange={() => setSelFile(f)}
-                  />
-                  {f.file.substring(0)}
-                  <Timestamp timestamp={fileObj.mtime} />
-                </label>
-              )
-            })}
-          </div>
+                    <input type="radio" className="hidden" name="takes"
+                      value={f.file} key={f.file} checked={f === selFile}
+                      onChange={() => setSelFile(f)}
+                    />
+                    {f.file.substring(0)}
+                    <Timestamp timestamp={fileObj.mtime} />
+                  </label>
+                )
+              })}
+            </div>
+          ) : null}
         </div>
       </div>
     </>
