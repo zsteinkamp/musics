@@ -29,7 +29,7 @@ const Header = ({
   })
 
   return (
-    <div className="grid grid-cols-[1fr_2rem] gap-4">
+    <div className="grid grid-cols-[1fr_24px] gap-4">
       <h1 className={`mb-8 truncate ${className}`}>
         <Link href="/">MUSICS</Link>
         {pathLinks}
