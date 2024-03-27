@@ -105,8 +105,8 @@ volumes:
   musics:
     driver: local
     driver_opts:
-      type: "nfs4"
-      o: "addr=${MUSICS_NFS_HOST},vers=4,soft,nolock"
+      type: "nfs"
+      o: "addr=${MUSICS_NFS_HOST},nfsvers=4,soft,nolock"
       device: ":${MUSICS_NFS_PATH}"
 EOF
 fi
