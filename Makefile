@@ -17,7 +17,7 @@ devdown: ## Stop/rm development environment
 	cd musics_dev && docker compose down
 
 default: config ## Build and run production environment
-	docker compose build && docker compose up -d --force-recreate && docker compose logs -f
+	docker compose build && docker compose up -d --force-recreate
 
 config: docker-compose.yml nginx.conf ## Run setup script to generate docker-compose.yml and nginx.conf files
 
