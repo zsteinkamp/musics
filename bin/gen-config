@@ -23,33 +23,37 @@ export MUSICS_NFS_HOST=${MUSICS_NFS_HOST:=truenas.lan}
 export MUSICS_NFS_PATH=${MUSICS_NFS_PATH:=/mnt/data-pool/shared/musics}
 export MUSICS_ORIG_DIR=${MUSICS_ORIG_DIR:=/mnt/shared/musics}
 
-echo
-echo '=================================================================='
-echo 'MUSICS setup...'
-echo '=================================================================='
-echo
-read -r -p "Web port? [${MUSICS_WEB_PORT}] " MUSICS_WEB_PORT_INPUT
-MUSICS_WEB_PORT=${MUSICS_WEB_PORT_INPUT:=${MUSICS_WEB_PORT}}
-
-read -r -p "Mount type (bind | nfs)? [$MUSICS_MOUNT_TYPE] " MUSICS_MOUNT_TYPE_INPUT
-MUSICS_MOUNT_TYPE=${MUSICS_MOUNT_TYPE_INPUT:=${MUSICS_MOUNT_TYPE}}
-
-if [ "nfs" == "$MUSICS_MOUNT_TYPE" ]
+# interactive setup if interactive terminal
+if [ -n $PS1 ]
 then
-  # nfs mount
-  read -r -p "NFS Host? [$MUSICS_NFS_HOST] " MUSICS_NFS_HOST_INPUT
-  MUSICS_NFS_HOST=${MUSICS_NFS_HOST_INPUT:=${MUSICS_NFS_HOST}}
-  read -r -p "NFS Path? [$MUSICS_NFS_PATH] " MUSICS_NFS_PATH_INPUT
-  MUSICS_NFS_PATH=${MUSICS_NFS_PATH_INPUT:=${MUSICS_NFS_PATH}}
-elif [ "bind" == "$MUSICS_MOUNT_TYPE" ]
-then
-  # bind mount
-  read -r -p "Music Directory? [$MUSICS_ORIG_DIR] " MUSICS_ORIG_DIR_INPUT
-  MUSICS_ORIG_DIR=${MUSICS_ORIG_DIR_INPUT:=${MUSICS_ORIG_DIR}}
-else
-  # error
-  echo 'Unsupported mount type. :('
-  exit 1
+  echo
+  echo '=================================================================='
+  echo 'MUSICS setup...'
+  echo '=================================================================='
+  echo
+  read -r -p "Web port? [${MUSICS_WEB_PORT}] " MUSICS_WEB_PORT_INPUT
+  MUSICS_WEB_PORT=${MUSICS_WEB_PORT_INPUT:=${MUSICS_WEB_PORT}}
+
+  read -r -p "Mount type (bind | nfs)? [$MUSICS_MOUNT_TYPE] " MUSICS_MOUNT_TYPE_INPUT
+  MUSICS_MOUNT_TYPE=${MUSICS_MOUNT_TYPE_INPUT:=${MUSICS_MOUNT_TYPE}}
+
+  if [ "nfs" == "$MUSICS_MOUNT_TYPE" ]
+  then
+    # nfs mount
+    read -r -p "NFS Host? [$MUSICS_NFS_HOST] " MUSICS_NFS_HOST_INPUT
+    MUSICS_NFS_HOST=${MUSICS_NFS_HOST_INPUT:=${MUSICS_NFS_HOST}}
+    read -r -p "NFS Path? [$MUSICS_NFS_PATH] " MUSICS_NFS_PATH_INPUT
+    MUSICS_NFS_PATH=${MUSICS_NFS_PATH_INPUT:=${MUSICS_NFS_PATH}}
+  elif [ "bind" == "$MUSICS_MOUNT_TYPE" ]
+  then
+    # bind mount
+    read -r -p "Music Directory? [$MUSICS_ORIG_DIR] " MUSICS_ORIG_DIR_INPUT
+    MUSICS_ORIG_DIR=${MUSICS_ORIG_DIR_INPUT:=${MUSICS_ORIG_DIR}}
+  else
+    # error
+    echo 'Unsupported mount type. :('
+    exit 1
+  fi
 fi
 
 cat << EOF > docker-compose.yml
