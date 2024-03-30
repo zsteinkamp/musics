@@ -1,4 +1,4 @@
-name: photodirs-compose
+name: musics-compose
 volumes:
   prod_musics:
     driver_opts:
@@ -7,16 +7,16 @@ volumes:
       device: '/Volumes/shared/musics'
       o: bind
 services:
-  nginx:
+  musics-nginx:
     image: ghcr.io/zsteinkamp/musics-nginx
     depends_on:
-      - web
+      - musics-web
     ports:
       - '4141:3141'
     restart: unless-stopped
     volumes:
       - prod_musics:/musics:ro
-  web:
+  musics-web:
     image: ghcr.io/zsteinkamp/musics-web
     restart: unless-stopped
     volumes:
