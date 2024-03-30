@@ -16,7 +16,9 @@ private home network, or make it public for the world to enjoy.
 
 ## Getting Started
 
-Clone this repo, then run:
+If you want to just run the pre-built containers, check out the [docker compose example](./compose_example/) directory.
+
+Otherwise, clone this repo, then run:
 
 ```bash
 make
