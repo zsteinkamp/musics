@@ -89,11 +89,11 @@ const SongRow = ({
       }
       body={(
         <div className="">
-          <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr]">
+          <div className="grid grid-cols-[1fr_1fr]">
             <h2 className="leading-normal truncate">
               <Link href={`${path}${myKey}`}>{title}</Link>
             </h2>
-            <div className="hidden sm:block truncate ml-4 mr-4">
+            <div className="truncate ml-4 mr-4">
               <p className="truncate text-right leading-4">{fileObj.file}</p>
               <Timestamp timestamp={fileObj.mtime} className="
               truncate text-right
