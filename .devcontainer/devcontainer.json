@@ -1,5 +1,5 @@
 {
-  "dockerComposeFile": "../musics_dev/docker-compose.yml",
+  "dockerComposeFile": "../dev/docker-compose.yml",
   "service": "web",
   "workspaceFolder": "/app",
   "shutdownAction": "stopCompose",

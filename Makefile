@@ -8,13 +8,13 @@ help: ## Show makefile targets and their descriptions
 		$(AWK) 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-28s\033[0m %s\n", $$1, $$2}' | sort
 
 devup: ## Start development environment
-	cd musics_dev && docker compose build && docker compose up -d --force-recreate && docker compose logs -f
+	cd dev && docker compose build && docker compose up -d --force-recreate && docker compose logs -f
 
 devlogs: ## Tail logs in development environment
-	cd musics_dev && docker compose logs -f
+	cd dev && docker compose logs -f
 
 devdown: ## Stop/rm development environment
-	cd musics_dev && docker compose down
+	cd dev && docker compose down
 
 default: config ## Build and run production environment
 	docker compose build && docker compose up -d --force-recreate
