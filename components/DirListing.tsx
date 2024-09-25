@@ -5,6 +5,7 @@ import { MutableRefObject, useState } from 'react'
 import type { PathMetaType } from '@/lib/PathMeta';
 import type { FileMetaType } from '@/pages/[[...slug]]'
 import CoverImage from './CoverImage';
+import Markdown from 'react-markdown';
 
 type DirListingProps = {
   path: string
@@ -59,7 +60,7 @@ const DirListing = ({
       {dirMeta.cover && <CoverImage title={dirMeta.title || dirMeta.cover} src={join(base, dirMeta.cover)} className="mb-8" />
       }
       {dirMeta.title && <h1 className="mb-4">{dirMeta.title}</h1>}
-      {dirMeta.description && <p className="text-base mb-8">{dirMeta.description}</p>}
+      {dirMeta.description && <div className="text-base mb-8"><Markdown>{dirMeta.description}</Markdown></div>}
       <div className="grid grod-cols-1 gap-4">
         {
           filesObjKeys.map((key, idx) => {
