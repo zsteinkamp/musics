@@ -16,6 +16,12 @@ devlogs: ## Tail logs in development environment
 devdown: ## Stop/rm development environment
 	cd dev && docker compose down
 
+logs: config ## Prod logs
+	docker compose logs -f
+
+shell: config ## Prod shell
+	docker compose exec web bash
+
 default: config ## Build and run production environment
 	docker compose build && docker compose up -d --force-recreate
 
