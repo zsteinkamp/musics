@@ -60,7 +60,7 @@ const DirListing = ({
       {dirMeta.cover && <CoverImage title={dirMeta.title || dirMeta.cover} src={join(base, dirMeta.cover)} className="mb-8" />
       }
       {dirMeta.title && <h1 className="mb-4">{dirMeta.title}</h1>}
-      {dirMeta.description && <div className="text-base mb-8"><Markdown>{dirMeta.description}</Markdown></div>}
+      {dirMeta.description && <div className="text-base mb-8 album-description"><Markdown>{dirMeta.description}</Markdown></div>}
       <div className="grid grod-cols-1 gap-4">
         {
           filesObjKeys.map((key, idx) => {

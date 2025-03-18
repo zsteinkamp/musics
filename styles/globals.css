@@ -45,3 +45,7 @@ a:visited,
 a {
   @apply text-link-base-light hover:text-link-hover-light dark:text-link-base-dark hover:dark:text-link-hover-dark;
 }
+
+.album-description h2 {
+  @apply mt-4;
+}
