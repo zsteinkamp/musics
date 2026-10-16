@@ -120,6 +120,7 @@ events {
 
 http {
   include mime.types;
+  types { audio/flac flac; }
   default_type application/octet-stream;
   sendfile on;
   keepalive_timeout 65;
