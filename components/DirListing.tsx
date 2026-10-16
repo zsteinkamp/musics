@@ -42,7 +42,7 @@ const DirListing = ({
       return a.file.toLowerCase() > b.file.toLowerCase() ? 1 : -1
     })
   }
-  let filesObjKeys = filesArr.map((e) => e.file.replace(/(-\d+)?.(wav|aif|mp3|m4a)$/, ""))
+  let filesObjKeys = filesArr.map((e) => e.file.replace(/(-\d+)?.(wav|aif|mp3|m4a|flac)$/, ""))
 
   if (dirMeta.tracks) {
     filesObjKeys = []

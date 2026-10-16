@@ -47,7 +47,7 @@ export async function getServerSideProps(context: any) {
 
   //console.log({ base, root, path })
   // get audio files in the current directory (path = directory is the base case)
-  //let fileCmd = `find "${base}" -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3|m4a)$' | cut -d ' ' -f 2-`
+  //let fileCmd = `find "${base}" -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3|m4a|flac)$' | cut -d ' ' -f 2-`
 
   //console.log({ fileCmd })
 
@@ -68,7 +68,7 @@ export async function getServerSideProps(context: any) {
   }
 
   // fileCmd will give the versions of the given songPrefix, sorted by descending date
-  const fileCmd = `find "${base}" ${nameArg} -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3|m4a)$' | cut -d ' ' -f 2-`
+  const fileCmd = `find "${base}" ${nameArg} -maxdepth 1 -printf "%T@ %p\\n" | sort -rn | egrep '(aif|wav|mp3|m4a|flac)$' | cut -d ' ' -f 2-`
 
   //console.log({ base, path, songPrefix, fileCmd });
   // run the fileCmd and get the output (newline separated)
@@ -84,7 +84,7 @@ export async function getServerSideProps(context: any) {
       continue
     }
     const bareFname = f.substring(base.length)
-    const matches = f.match(/(-\d+)?\.(aif|wav|mp3|m4a)$/)
+    const matches = f.match(/(-\d+)?\.(aif|wav|mp3|m4a|flac)$/)
     //console.log({ base, matches, bareFname })
     if (matches && matches.index) {
       const prefix = bareFname.substring(
