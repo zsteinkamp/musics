@@ -2,7 +2,6 @@ import { join } from 'path'
 import { existsSync, statSync } from 'fs'
 import { promisify } from 'util'
 import { exec } from 'child_process'
-import { useRef } from 'react'
 
 import SongPage from '@/components/SongPage'
 import Header from '@/components/Header'
@@ -169,13 +168,12 @@ type HomeProps = {
 }
 
 export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta, subdirMeta }: HomeProps) {
-  const audioRefs = useRef({})
-
   //console.log({ base, path, songPrefix, dirs, filesObj });
 
   return (
     <div className="outer max-w-4xl m-auto">
-      <div className="m-8">
+      {/* bottom padding keeps the footer clear of the fixed PlayerBar */}
+      <div className="m-8 pb-24">
         <Header path={path} className="" />
         <div className="min-h-[75dvh]">
           <DirLinks dirs={dirs} subdirMeta={subdirMeta} path={path} className={`
@@ -187,7 +185,7 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta, 
               <SongPage filesObj={filesObj} path={path} songPrefix={songPrefix} />
             ) : (
               <DirListing path={path} dirMeta={dirMeta}
-                filesObj={filesObj} base={base} audioRefs={audioRefs} />
+                filesObj={filesObj} base={base} />
             )}
         </div>
         <Footer />

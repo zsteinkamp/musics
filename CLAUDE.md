@@ -12,6 +12,25 @@ The music library is mounted into the containers either as a host bind mount or,
 production, as a Docker-managed NFS volume (`type: nfs`, `soft,nolock`) pointed at
 `truenas.lan:/mnt/data-pool/shared/musics`.
 
+## Player architecture
+
+There is exactly one `<audio>` element, rendered by `components/PlayerBar.tsx` inside
+`PlayerProvider` (`lib/player.tsx`), both mounted in `pages/_app.tsx`. `_app` survives
+client-side navigation, so playback continues while browsing — **internal links must use
+`next/link`**; a plain `<a>` does a full reload and interrupts playback (state is restored
+from `localStorage` key `musics.player`, paused at the saved position).
+
+- Song "Play" plays just that song (`continuous=false`); "Play album/all" and playing from
+  the queue set `continuous=true`, which auto-advances through the queue.
+- "Play album" inserts the rest of the album at the front of the existing queue rather
+  than replacing it.
+- Audio URLs are `/api/musics/<path>`; nginx's `location ~ /musics/(.+)` regex matches
+  anywhere in the URI, so that prefix is served straight off the library.
+
+To try UI changes against the real library without touching prod, rsync changed files to
+`linux.lan:~/dev/musics` and run the dev stack there (`cd dev && docker compose up -d
+--build`, serves on port 3142, bind-mounts the source with hot reload).
+
 ## Production host boot-ordering gate (NFS reboot fix)
 
 **Symptom (fixed 2026-06-05):** After the production host `linux` (Debian 12) rebooted,

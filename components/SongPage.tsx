@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Timestamp from './Timestamp'
 import CoverImage from './CoverImage';
+import TrackControls from './TrackControls';
 
 type SongPageProps = {
   filesObj: Record<string, Record<string, any>>
@@ -65,13 +66,13 @@ const SongPage = ({
           {title}
         </h1>
         <div className="">
-          <audio
-            preload="none"
-            className="w-full"
-            controls
-            autoPlay={true}
-            src={`/api/musics${parentPath + '/' + selFile.file}`}
-          />
+          <TrackControls className="justify-center text-base" track={{
+            src: `/api/musics${parentPath + '/' + selFile.file}`,
+            title,
+            href: path,
+            cover: fileObj.coverPath || undefined,
+            album: parentPath.split('/').pop() || undefined,
+          }} />
           <p className="text-center mt-2">{selFile.file}</p>
           {filesObj[songPrefix].children.length > 1 ? (
             <div className="mt-8">
