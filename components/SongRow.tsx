@@ -46,15 +46,17 @@ const SongRow = ({
       body={(
         <div className="flex items-center gap-3">
           <PlayToggleButton track={track} className="shrink-0 text-xl !p-2" />
-          <h2 className="flex-1 min-w-0 leading-normal truncate">
-            <Link href={`${path}${myKey}`}>{title}</Link>
-          </h2>
-          <div className="hidden sm:block basis-2/5 min-w-0 truncate">
-            <p className="truncate text-right leading-4">{fileObj.file}</p>
-            <Timestamp timestamp={fileObj.mtime} className="
-              truncate text-right
-            text-date-light dark:text-date-dark
-              " />
+          <div className="flex-1 min-w-0">
+            <h2 className="leading-normal truncate">
+              <Link href={`${path}${myKey}`}>{title}</Link>
+            </h2>
+            <div className="flex gap-3 text-sm leading-4">
+              <Timestamp timestamp={fileObj.mtime} className="
+                shrink-0 !text-sm
+                text-date-light dark:text-date-dark
+                " />
+              <p className="truncate">{fileObj.file}</p>
+            </div>
           </div>
           <QueueButtons track={track} className="shrink-0 text-sm mr-2" />
         </div>

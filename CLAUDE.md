@@ -20,10 +20,9 @@ client-side navigation, so playback continues while browsing — **internal link
 `next/link`**; a plain `<a>` does a full reload and interrupts playback (state is restored
 from `localStorage` key `musics.player`, paused at the saved position).
 
-- Song "Play" plays just that song (`continuous=false`); "Play album/all" and playing from
-  the queue set `continuous=true`, which auto-advances through the queue.
-- "Play album" inserts the rest of the album at the front of the existing queue rather
-  than replacing it.
+- Song "Play" clears the queue and plays just that song (`continuous=false`). "Play
+  album/all" replaces the queue with the rest of the album and sets `continuous=true`,
+  which auto-advances. Playing from the queue panel / skip-next keeps the queue.
 - Audio URLs are `/api/musics/<path>`; nginx's `location ~ /musics/(.+)` regex matches
   anywhere in the URI, so that prefix is served straight off the library.
 

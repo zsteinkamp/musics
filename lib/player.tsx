@@ -146,7 +146,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setCurrent(item)
   }, [current])
 
+  // an explicit Play on a song or album starts fresh: the queue is replaced
   const playNow = useCallback((track: Track) => {
+    setQueue([])
     start(toItem(track), false)
   }, [start])
 
@@ -155,8 +157,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       return
     }
     const items = tracks.map(toItem)
-    // rest of the album goes ahead of whatever was already queued
-    setQueue((q) => [...items.slice(1), ...q])
+    setQueue(items.slice(1))
     start(items[0], true)
   }, [start])
 

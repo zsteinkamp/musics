@@ -184,7 +184,7 @@ export default function Home({ songPrefix, filesObj, base, dirs, path, dirMeta, 
             songPrefix ? (
               <SongPage filesObj={filesObj} path={path} songPrefix={songPrefix} />
             ) : (
-              <DirListing path={path} dirMeta={dirMeta}
+              <DirListing key={path} path={path} dirMeta={dirMeta}
                 filesObj={filesObj} base={base} />
             )}
         </div>
